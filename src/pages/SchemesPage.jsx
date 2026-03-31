@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Landmark, 
   Banknote, 
@@ -9,9 +9,151 @@ import {
   ArrowRight, 
   ExternalLink,
   Info,
-  BadgePercent
+  BadgePercent,
+  X,
+  Languages,
+  ChevronDown
 } from 'lucide-react';
 import LiveIcon from '../components/LiveIcon';
+
+const schemeDetails = {
+  "PM-Kisan Samman Nidhi": {
+    hindi: `
+पीएम किसान सम्मान निधि – पूरी जानकारी 
+
+1. 📌 यह योजना क्या है? 
+PM-Kisan Samman Nidhi भारत सरकार की एक योजना है, जो किसानों को आर्थिक सहायता देने के लिए बनाई गई है। 
+• हर किसान को ₹6000 प्रति वर्ष मिलते हैं  
+• यह पैसा 3 बराबर किस्तों (₹2000-₹2000) में दिया जाता है  
+• पैसा सीधे बैंक खाते में ट्रांसफर होता है (DBT – Direct Benefit Transfer)  
+
+2. 👨🌾 कौन आवेदन कर सकता है? (पात्रता) 
+✔ पात्र किसान: 
+• भारत के छोटे और सीमांत किसान  
+• जिनके पास खेती योग्य जमीन है  
+• जमीन किसान के नाम पर होनी चाहिए  
+
+❌ अपात्र: 
+• सरकारी कर्मचारी (Group A और B)  
+• आयकर (Income Tax) देने वाले लोग  
+• डॉक्टर, इंजीनियर, वकील जैसे पेशेवर  
+• ₹10,000 से ज्यादा पेंशन पाने वाले  
+
+3. 💰 पैसा कैसे मिलता है? 
+कुल ₹6000 साल में 3 किस्तों में मिलता है: 
+• अप्रैल – जुलाई → ₹2000  
+• अगस्त – नवंबर → ₹2000  
+• दिसंबर – मार्च → ₹2000  
+✅ पैसा सीधे बैंक खाते में आता है (कोई बिचौलिया नहीं) 
+
+4. 📝 आवेदन कैसे करें? 
+⌨️ ऑनलाइन तरीका: 
+• PM-Kisan की आधिकारिक वेबसाइट पर जाएं  
+• “New Farmer Registration” पर क्लिक करें  
+• आधार नंबर और जरूरी जानकारी भरें  
+
+🏠 ऑफलाइन तरीका: 
+• नजदीकी CSC (Common Service Center) पर जाएं  
+• या पटवारी / कृषि कार्यालय से संपर्क करें  
+
+5. 📄 जरूरी दस्तावेज 
+आवेदन के लिए ये दस्तावेज चाहिए: 
+• आधार कार्ड  
+• बैंक खाता विवरण  
+• जमीन के कागजात (खसरा / खतौनी)  
+• मोबाइल नंबर  
+
+6. 🔍 स्टेटस कैसे चेक करें? 
+• आधिकारिक वेबसाइट पर जाएं  
+• “Beneficiary Status” पर क्लिक करें  
+• आधार या मोबाइल नंबर डालकर चेक करें  
+
+7. ⚠️ जरूरी बातें 
+• आधार लिंक होना जरूरी है  
+• बैंक खाता सक्रिय होना चाहिए  
+• गलत जानकारी देने पर लाभ बंद हो सकता है  
+• हर किस्त से पहले वेरिफिकेशन होता है  
+
+8. 🎯 योजना का उद्देश्य 
+• किसानों को आर्थिक सहायता देना  
+• खेती के खर्च में मदद करना  
+• ग्रामीण अर्थव्यवस्था को मजबूत बनाना  
+
+9. 👍 फायदे (Benefits) 
+• पैसा सीधे खाते में  
+• कोई बिचौलिया नहीं  
+• आवेदन प्रक्रिया आसान  
+• हर साल निश्चित सहायता 
+    `,
+    eng: `
+PM-Kisan Samman Nidhi – Full Details
+
+1. 📌 What is this scheme? 
+PM-Kisan Samman Nidhi is a Government of India scheme created to provide financial support to farmers. 
+• Farmers get ₹6000 per year  
+• The money is given in 3 equal installments (₹2000 each)  
+• It is directly transferred to the bank account (DBT – Direct Benefit Transfer)  
+
+2. 👨🌾 Who can apply? (Eligibility) 
+✔ Eligible: 
+• Small and marginal farmers in India  
+• Farmers who own agricultural land  
+• Land must be registered in the farmer’s name  
+
+❌ Not eligible: 
+• Government employees (Group A & B)  
+• Income tax payers  
+• Professionals like doctors, engineers, lawyers  
+• Pensioners with pension above ₹10,000 per month  
+
+3. 💰 How is the money given? 
+Total ₹6000 is given yearly in 3 installments: 
+• April – July → ₹2000  
+• August – November → ₹2000  
+• December – March → ₹2000  
+✅ Money is directly sent to the bank account (no middlemen) 
+
+4. 📝 How to apply? 
+⌨️ Online method: 
+• Visit the PM-Kisan official website  
+• Click on “New Farmer Registration”  
+• Enter Aadhaar number and required details  
+
+🏠 Offline method: 
+• Visit CSC (Common Service Center)  
+• Or contact local Patwari / agriculture office  
+
+5. 📄 Required documents 
+You need the following documents: 
+• Aadhaar Card  
+• Bank account details  
+• Land records (Khasra / Khatauni)  
+• Mobile number  
+
+6. 🔍 How to check beneficiary status? 
+• Go to the official website  
+• Click on “Beneficiary Status”  
+• Enter Aadhaar or mobile number to check  
+
+7. ⚠️ Important points 
+• Aadhaar linking is mandatory  
+• Bank account must be active  
+• Wrong information can cancel your benefits  
+• Verification is done before each installment  
+
+8. 🎯 Main objective of the scheme 
+• To provide financial support to farmers  
+• To help with farming expenses  
+• To strengthen the rural economy  
+
+9. 👍 Benefits summary 
+• Direct money transfer  
+• No middlemen involved  
+• Easy application process  
+• Fixed yearly financial support
+    `
+  }
+};
 
 const schemes = [
   {
@@ -53,9 +195,21 @@ const schemes = [
 ];
 
 export default function SchemesPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activeDetails, setActiveDetails] = useState(null);
+  const [activeLang, setActiveLang] = useState('eng');
+  const [dropdownOpen, setDropdownOpen] = useState(null); // Track which scheme's dropdown is open
+
+  const openDetails = (schemeId, lang) => {
+    setActiveDetails(schemeDetails[schemeId]);
+    setActiveLang(lang);
+    setModalOpen(true);
+    setDropdownOpen(null);
+  };
+
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-8 relative">
         {/* Header */}
         <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <motion.div
@@ -89,7 +243,7 @@ export default function SchemesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card group overflow-hidden border-slate-100 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300"
+              className="glass-card group overflow-hidden border-slate-100 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 relative"
             >
               <div className="p-8">
                 <div className="flex items-start justify-between mb-6">
@@ -109,15 +263,56 @@ export default function SchemesPage() {
                   {scheme.description}
                 </p>
 
-                <div className="flex items-center justify-between pt-6 border-t border-slate-50 dark:border-slate-800">
-                  <a 
-                     href={scheme.link}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black text-sm uppercase tracking-widest hover:gap-4 transition-all"
-                  >
-                    Apply Now <ExternalLink size={16} />
-                  </a>
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-50 dark:border-slate-800">
+                  <div className="flex items-center gap-4">
+                    <a 
+                       href={scheme.link}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black text-sm uppercase tracking-widest hover:gap-3 transition-all"
+                    >
+                      Apply Now <ExternalLink size={16} />
+                    </a>
+                    
+                    {/* Full Details Button & Dropdown */}
+                    {schemeDetails[scheme.title] && (
+                      <div className="relative">
+                        <button 
+                          onClick={() => setDropdownOpen(dropdownOpen === scheme.title ? null : scheme.title)}
+                          className="flex items-center gap-2 bg-slate-900 dark:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-600 transition-all shadow-md active:scale-95"
+                        >
+                          Full Details <ChevronDown size={14} className={`transition-transform duration-300 ${dropdownOpen === scheme.title ? 'rotate-180' : ''}`} />
+                        </button>
+                        
+                        <AnimatePresence>
+                          {dropdownOpen === scheme.title && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                              className="absolute bottom-full left-0 mb-2 w-40 glass-card p-2 border-slate-100 dark:border-slate-800 shadow-2xl z-20"
+                            >
+                              <button 
+                                onClick={() => openDetails(scheme.title, 'hindi')}
+                                className="w-full flex items-center justify-between gap-2 px-3 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors"
+                              >
+                                <span className="flex items-center gap-2"><Languages size={14} /> Hindi</span>
+                                <ArrowRight size={12} className="opacity-40" />
+                              </button>
+                              <button 
+                                onClick={() => openDetails(scheme.title, 'eng')}
+                                className="w-full flex items-center justify-between gap-2 px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors mt-1"
+                              >
+                                <span className="flex items-center gap-2"><Languages size={14} /> English</span>
+                                <ArrowRight size={12} className="opacity-40" />
+                              </button>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+                  </div>
+                  
                   <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                     <Info size={18} />
                   </button>
@@ -131,6 +326,86 @@ export default function SchemesPage() {
             </motion.div>
           ))}
         </div>
+
+        {/* Details Modal */}
+        <AnimatePresence>
+          {modalOpen && (
+            <>
+              {/* Dimmed Background */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setModalOpen(false)}
+                className="fixed inset-0 bg-slate-950/40 backdrop-blur-md z-[1001]"
+              />
+              
+              {/* Modal Content */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="fixed inset-4 md:inset-10 lg:inset-20 glass-card z-[1002] overflow-hidden flex flex-col shadow-2xl border-white/20"
+              >
+                {/* Modal Header */}
+                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl shrink-0">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                      <Banknote size={24} />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">PM-Kisan Scheme Details</h2>
+                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-1">Information Portal</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setModalOpen(false)}
+                    className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-2xl hover:bg-rose-500 hover:text-white transition-all shadow-sm active:scale-95"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                {/* Modal Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50/30 dark:bg-slate-950/30 custom-scrollbar">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="prose prose-slate dark:prose-invert max-w-none">
+                      <pre className="whitespace-pre-wrap font-sans text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-300 tracking-tight">
+                        {activeDetails[activeLang]}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Modal Footer */}
+                <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div className="flex p-1 bg-slate-200 dark:bg-slate-800 rounded-xl">
+                      <button 
+                        onClick={() => setActiveLang('hindi')}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${activeLang === 'hindi' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                      >
+                        हिन्दी
+                      </button>
+                      <button 
+                        onClick={() => setActiveLang('eng')}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${activeLang === 'eng' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                      >
+                        ENGLISH
+                      </button>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setModalOpen(false)}
+                    className="w-full sm:w-auto px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black rounded-xl hover:opacity-90 transition-all active:scale-95"
+                  >
+                    Close Portal
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* Support Section */}
         <motion.div 
@@ -155,3 +430,4 @@ export default function SchemesPage() {
     </DashboardLayout>
   );
 }
+
