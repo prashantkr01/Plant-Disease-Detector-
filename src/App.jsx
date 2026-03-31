@@ -9,6 +9,7 @@ import HistoryPage from './pages/HistoryPage';
 import ProfilePage from './pages/ProfilePage';
 import LandingPage from './pages/LandingPage';
 import NotFound from './pages/NotFound';
+import SchemesPage from './pages/SchemesPage';
 import './index.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
       <Route path="/analysis" element={<ProtectedRoute><AnalysisPage /></ProtectedRoute>} />
       <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+      <Route path="/schemes" element={<ProtectedRoute><SchemesPage /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LandingPage />} />
       <Route path="*" element={<NotFound />} />

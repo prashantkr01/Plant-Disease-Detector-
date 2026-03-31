@@ -108,12 +108,14 @@ export default function LandingPage() {
             </button>
           </motion.div>
 
+
+
           {/* Social Proof */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center gap-8 opacity-40 dark:opacity-30 grayscale dark:invert transition-all duration-500"
+            className="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center gap-8 opacity-80 dark:opacity-70 transition-all duration-500"
           >
              <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Globe size={24}/> AGRI-TECH</div>
              <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><ShieldCheck size={24}/> BIO-SAVE</div>
@@ -130,6 +132,8 @@ export default function LandingPage() {
         onClose={() => setIsAuthModalOpen(false)} 
         initialMode={authMode} 
       />
+
+
     </div>
   );
 }

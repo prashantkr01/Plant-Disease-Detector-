@@ -8,7 +8,8 @@ import {
   LogOut, 
   Sprout, 
   Menu, 
-  X 
+  X,
+  Landmark
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,6 +25,7 @@ const Sidebar = () => {
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Upload Analysis', href: '/analysis', icon: Upload },
     { name: 'History', href: '/history', icon: History },
+    { name: 'Govt Schemes', href: '/schemes', icon: Landmark, isNew: true },
     { name: 'Profile', href: '/profile', icon: User },
   ];
 
@@ -83,7 +85,12 @@ const Sidebar = () => {
                   size={20} 
                   className={isActive ? 'text-emerald-600' : 'text-slate-400 group-hover:text-emerald-500 transition-colors'} 
                 />
-                {item.name}
+                <span className="flex-1">{item.name}</span>
+                {item.isNew && (
+                  <span className="px-2 py-0.5 bg-rose-500 text-[10px] text-white rounded-full animate-bounce shadow-lg shadow-rose-500/20 uppercase tracking-tighter">
+                    New
+                  </span>
+                )}
               </Link>
             );
           })}

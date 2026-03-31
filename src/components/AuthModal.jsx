@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, LogIn, UserPlus, Code, Globe, AlertCircle } from 'lucide-react';
+import { X, Mail, Lock, User, LogIn, UserPlus, Code, Globe, AlertCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import LiveIcon from './LiveIcon';
 
@@ -96,12 +96,12 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {error && (
                     <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="bg-rose-50 text-rose-600 p-4 rounded-2xl flex items-center gap-3 text-sm font-bold border border-rose-100"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 p-4 rounded-2xl flex items-center gap-3 text-sm font-bold backdrop-blur-sm shadow-lg shadow-rose-500/10"
                     >
-                      <AlertCircle size={18} className="shrink-0" />
-                      {error}
+                      <AlertCircle size={20} className="shrink-0 text-rose-500" />
+                      <p className="flex-1">{error}</p>
                     </motion.div>
                   )}
 

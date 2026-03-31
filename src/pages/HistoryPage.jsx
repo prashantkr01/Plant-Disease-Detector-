@@ -123,6 +123,54 @@ function DetailModal({ item, onClose }) {
   );
 }
 
+// ─── Confirmation Modal ──────────────────────────────────────────────────────
+function ConfirmationModal({ isOpen, onConfirm, onCancel, title, message, variant = 'danger' }) {
+  if (!isOpen) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[250] flex items-center justify-center p-4"
+      onClick={onCancel}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-slate-100 dark:border-slate-800 text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 ${
+          variant === 'danger' ? 'bg-rose-50 dark:bg-rose-500/10 text-rose-500' : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500'
+        }`}>
+          <AlertTriangle size={32} />
+        </div>
+        <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">{title}</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-8 leading-relaxed">{message}</p>
+        
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 py-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className={`flex-1 py-3.5 rounded-xl text-white font-bold transition-all shadow-lg ${
+              variant === 'danger' ? 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/30' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/30'
+            }`}
+          >
+            Confirm
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── History Card ─────────────────────────────────────────────────────────────
 function HistoryCard({ item, onDelete, onView, index }) {
   const isHealthy = item.disease.toLowerCase().includes('healthy');
@@ -208,21 +256,23 @@ export default function HistoryPage() {
   const { history, deleteEntry, clearAll } = useLocalHistory(user?.uid);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [confirmClear, setConfirmClear] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
+  const [isConfirmingClearAll, setIsConfirmingClearAll] = useState(false);
 
   const filteredHistory = history.filter(item =>
     item.disease.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleClearAll = () => {
-    if (confirmClear) {
-      clearAll();
-      setConfirmClear(false);
-    } else {
-      setConfirmClear(true);
-      // Auto-cancel after 4 seconds
-      setTimeout(() => setConfirmClear(false), 4000);
+  const handleConfirmDelete = () => {
+    if (deleteTargetId) {
+      deleteEntry(deleteTargetId);
+      setDeleteTargetId(null);
     }
+  };
+
+  const handleConfirmClearAll = () => {
+    clearAll();
+    setIsConfirmingClearAll(false);
   };
 
   return (
@@ -256,15 +306,11 @@ export default function HistoryPage() {
               {/* Clear All */}
               {history.length > 0 && (
                 <button
-                  onClick={handleClearAll}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm transition-all ${
-                    confirmClear
-                      ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/30 scale-105'
-                      : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20'
-                  }`}
+                  onClick={() => setIsConfirmingClearAll(true)}
+                  className="flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm transition-all bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20 shadow-sm"
                 >
                   <Trash size={16} />
-                  {confirmClear ? 'Tap again to confirm' : 'Clear All'}
+                  Clear All
                 </button>
               )}
 
@@ -313,7 +359,7 @@ export default function HistoryPage() {
                     key={item.id}
                     item={item}
                     index={index}
-                    onDelete={deleteEntry}
+                    onDelete={(id) => setDeleteTargetId(id)}
                     onView={setSelectedItem}
                   />
                 ))}
@@ -323,10 +369,33 @@ export default function HistoryPage() {
         </div>
       </DashboardLayout>
 
-      {/* Detail Modal */}
+      {/* Modals */}
       <AnimatePresence>
+        {/* Detail Modal */}
         {selectedItem && (
           <DetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+        )}
+        
+        {/* Confirmation: Delete Single Item */}
+        {deleteTargetId && (
+          <ConfirmationModal
+            isOpen={true}
+            onConfirm={handleConfirmDelete}
+            onCancel={() => setDeleteTargetId(null)}
+            title="Delete this scan?"
+            message="This action will permanently remove this analysis result from your local history. Are you sure?"
+          />
+        )}
+        
+        {/* Confirmation: Clear All */}
+        {isConfirmingClearAll && (
+          <ConfirmationModal
+            isOpen={true}
+            onConfirm={handleConfirmClearAll}
+            onCancel={() => setIsConfirmingClearAll(false)}
+            title="Clear all history?"
+            message={`This will permanently delete all ${history.length} saved analysis results. This device only.`}
+          />
         )}
       </AnimatePresence>
     </>

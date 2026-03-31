@@ -129,23 +129,23 @@ export default function WeatherWidget() {
             <p className="text-xs text-slate-400 dark:text-slate-500 font-medium -mt-4 mb-4">{state.region}</p>
           )}
           {state.temp !== null && (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-                <div className="p-2 text-rose-500 bg-rose-500/10 rounded-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800 transition-colors">
+                <div className="p-2 text-rose-500 bg-rose-500/10 rounded-xl shrink-0">
                   <Thermometer size={20} />
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-500 uppercase">Temp</p>
-                  <p className="text-lg font-black text-slate-900 dark:text-white">{state.temp}°C</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Temp</p>
+                  <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">{state.temp}°C</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800">
-                <div className="p-2 text-blue-500 bg-blue-500/10 rounded-xl">
+              <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800 transition-colors">
+                <div className="p-2 text-blue-500 bg-blue-500/10 rounded-xl shrink-0">
                   <Droplets size={20} />
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-500 uppercase">Humidity</p>
-                  <p className="text-lg font-black text-slate-900 dark:text-white">{state.humidity}%</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Humidity</p>
+                  <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">{state.humidity}%</p>
                 </div>
               </div>
             </div>
