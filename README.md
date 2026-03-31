@@ -99,14 +99,14 @@ src/
 ## 🌿 Disease Detection
 
 The app uses a **parallel race strategy** between two AI models:
-1. **Google Gemini 1.5 Flash** — Vision model for zero-shot disease identification
-2. **Hugging Face** — Fine-tuned plant disease classification model (fallback)
+1. **Google Gemini 1.5 Flash** - Vision model for zero-shot disease identification
+2. **Hugging Face** - Fine-tuned plant disease classification model (fallback)
 
 Whichever responds first wins. If both fail (e.g., quota exhausted), a demo fallback ensures the UI remains functional.
 
 ## 📜 License
 
-MIT License — feel free to fork and build on this!
+MIT License - feel free to fork and build on this!
 
 ---
 
