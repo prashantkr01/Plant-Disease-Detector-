@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: oklch(0.64 0.17 158.33);
+  --color-primary-foreground: oklch(0.97 0.01 10.66);
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+:root {
+  --primary: 153 60% 53%;
+  --primary-foreground: 0 0% 100%;
+  --background: 210 40% 98%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-border: rgba(255, 255, 255, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-blur: 12px;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-blur: 20px;
+}
+
+body {
+  @apply bg-slate-50 transition-colors duration-500 text-slate-900 tracking-tight font-sans dark:bg-slate-950 dark:text-slate-100;
+  font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
+  background-attachment: fixed;
+}
+
+.dark body {
+  background-image: radial-gradient(at 0% 0%, hsla(153, 60%, 53%, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, hsla(210, 100%, 80%, 0.05) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, hsla(153, 60%, 53%, 0.1) 0px, transparent 50%);
+}
+
+.glass {
+  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] shadow-xl transition-all duration-500;
+  background: var(--glass-bg);
+}
+
+.glass-card {
+  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] rounded-3xl transition-all duration-500 hover:shadow-2xl;
+  background: var(--glass-bg);
+}
+
+.green-gradient {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background-size: 200% 200%;
+  animation: gradientMove 5s ease infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card-hover {
+  @apply transition-all duration-500 ease-out hover:-translate-y-2;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300/50 rounded-full hover:bg-slate-400/80 transition-colors dark:bg-slate-700/50;
+}
