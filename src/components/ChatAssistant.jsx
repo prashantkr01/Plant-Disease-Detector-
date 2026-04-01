@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Send, X, Bot, User, Sparkles, Loader2, Minimize2 } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { useLanguage } from '../context/LanguageContext';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 
 export default function ChatAssistant() {
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: "Hi! I'm your PlantAI Assistant. Need help with a diagnosis or plant care tips?" }
+    { role: 'assistant', content: t('chatWelcome') }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +52,8 @@ export default function ChatAssistant() {
         }));
 
       const chat = model.startChat({ history });
-      const result = await chat.sendMessage(input);
+      const promptText = `User Language: ${language === 'hi' ? 'Hindi' : 'English'}. Please reply in this language. \n\n ${input}`;
+      const result = await chat.sendMessage(promptText);
       const text = result.response.text();
 
       setMessages(prev => [...prev, { role: 'assistant', content: text }]);
@@ -58,15 +61,14 @@ export default function ChatAssistant() {
       console.error("Gemini Assistant Failure:", error);
       
       // DYNAMIC FALLBACK SYSTEM
-      // This makes the chatbot "work" for common plant questions even with API issues
-      let smartFallback = "I'm having trouble retrieving a live AI response. However, remember to keep your plants in well-draining soil!";
+      let smartFallback = t('chatFallback');
       
       const prompt = input.toLowerCase();
-      if (prompt.includes("water")) smartFallback = "Most indoor plants prefer the 'soak and dry' method: water when the top inch of soil is dry.";
-      if (prompt.includes("light") || prompt.includes("sun")) smartFallback = "Most plants thrive in bright, indirect light. Avoid direct midday sun to prevent leaf burn.";
-      if (prompt.includes("rain") || prompt.includes("protect")) smartFallback = "To protect plants from heavy rain, ensure they are in containers with drainage or provide a temporary mesh cover to prevent soil splash-back.";
-      if (prompt.includes("dead") || prompt.includes("yellow")) smartFallback = "Yellow leaves can mean overwatering or nutrient deficiency. Check the soil moisture first!";
-      if (prompt.includes("hi") || prompt.includes("hello")) smartFallback = "Hi! I'm here. Gemini is experiencing high traffic, but I'm ready to help with your plant care basics!";
+      if (prompt.includes("water")) smartFallback = t('chatWaterFallback');
+      if (prompt.includes("light") || prompt.includes("sun")) smartFallback = t('chatLightFallback');
+      if (prompt.includes("rain") || prompt.includes("protect")) smartFallback = t('chatRainFallback');
+      if (prompt.includes("dead") || prompt.includes("yellow")) smartFallback = t('chatHealthFallback');
+      if (prompt.includes("hi") || prompt.includes("hello")) smartFallback = t('chatHiFallback');
 
       setMessages(prev => [...prev, { role: 'assistant', content: smartFallback }]);
     } finally {
@@ -91,10 +93,10 @@ export default function ChatAssistant() {
                   <Bot size={24} className="sm:w-7 sm:h-7" />
                 </div>
                 <div>
-                  <h3 className="font-black tracking-tight text-base sm:text-lg">PlantAI Assistant</h3>
+                  <h3 className="font-black tracking-tight text-base sm:text-lg">{t('chatAssistantTitle')}</h3>
                   <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-bold uppercase opacity-80">
                     <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-300 rounded-full animate-pulse"></span>
-                    Online & Ready
+                    {t('chatOnline')}
                   </div>
                 </div>
               </div>
@@ -146,7 +148,7 @@ export default function ChatAssistant() {
                 <input 
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your question..."
+                  placeholder={t('chatPlaceholder')}
                   className="w-full bg-slate-100 dark:bg-slate-900 border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-emerald-500 rounded-xl py-3.5 pl-5 pr-14 outline-none transition-all placeholder:text-slate-400 dark:text-white text-sm sm:text-base"
                 />
                 <button 
@@ -157,7 +159,7 @@ export default function ChatAssistant() {
                   <Send size={20} />
                 </button>
               </div>
-              <p className="text-[10px] text-center text-slate-400 dark:text-slate-500 mt-2 font-medium">Powered by Gemini 2.0 Flash</p>
+              <p className="text-[10px] text-center text-slate-400 dark:text-slate-500 mt-2 font-medium">{t('chatPoweredBy')}</p>
             </form>
           </motion.div>
         )}

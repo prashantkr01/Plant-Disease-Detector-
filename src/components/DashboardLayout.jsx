@@ -1,13 +1,17 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import LanguageToggle from './LanguageToggle';
+import { useLanguage } from '../context/LanguageContext';
+import { ArrowLeft } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import ChatAssistant from './ChatAssistant';
-import { ArrowLeft } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const location = useLocation();
+
   const isDashboard = location.pathname === '/dashboard';
 
   return (
@@ -21,12 +25,15 @@ const DashboardLayout = ({ children }) => {
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-x-1 transition-all duration-200"
             >
               <ArrowLeft size={16} />
-              Back to Dashboard
+              {t('backToDashboard')}
             </button>
           ) : (
             <div />
           )}
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
         <div className="max-w-6xl mx-auto flex-1 w-full">
           {children}

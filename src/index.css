@@ -12,51 +12,55 @@
 }
 
 :root {
-  --primary: 153 60% 53%;
+  --primary: 158 79% 42%;
   --primary-foreground: 0 0% 100%;
   --background: 210 40% 98%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
-  --card-border: rgba(255, 255, 255, 0.5);
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-blur: 12px;
+  --card-border: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-blur: 16px;
+  --accent: 158 79% 42%;
 }
 
 .dark {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 4.9%;
-  --card-border: rgba(255, 255, 255, 0.1);
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-blur: 20px;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-blur: 24px;
+  --accent: 158 79% 42%;
 }
 
 body {
   @apply bg-slate-50 transition-colors duration-500 text-slate-900 tracking-tight font-sans dark:bg-slate-950 dark:text-slate-100;
   font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
   background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
 .dark body {
-  background-image: radial-gradient(at 0% 0%, hsla(153, 60%, 53%, 0.15) 0px, transparent 50%),
+  background-image: radial-gradient(at 0% 0%, hsla(158, 79%, 42%, 0.15) 0px, transparent 50%),
                     radial-gradient(at 100% 0%, hsla(210, 100%, 80%, 0.05) 0px, transparent 50%),
-                    radial-gradient(at 100% 100%, hsla(153, 60%, 53%, 0.1) 0px, transparent 50%);
+                    radial-gradient(at 100% 100%, hsla(158, 79%, 42%, 0.1) 0px, transparent 50%);
 }
 
 .glass {
   @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] shadow-xl transition-all duration-500;
   background: var(--glass-bg);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
 }
 
 .glass-card {
-  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] rounded-3xl transition-all duration-500 hover:shadow-2xl;
+  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10;
   background: var(--glass-bg);
 }
 
 .green-gradient {
   background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
   background-size: 200% 200%;
-  animation: gradientMove 5s ease infinite;
+  animation: gradientMove 8s ease infinite;
 }
 
 .perspective-1000 {

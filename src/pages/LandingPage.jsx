@@ -4,8 +4,11 @@ import { Sprout, Lock, ArrowRight, ShieldCheck, Zap, Globe, Code } from 'lucide-
 import AuthModal from '../components/AuthModal';
 import LiveIcon from '../components/LiveIcon';
 import ThemeToggle from '../components/ThemeToggle';
+import LanguageToggle from '../components/LanguageToggle';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function LandingPage() {
+  const { t } = useLanguage();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
 
@@ -35,18 +38,19 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-6">
+            <LanguageToggle />
             <ThemeToggle />
             <button 
               onClick={openLogin}
               className="text-slate-600 dark:text-slate-300 font-bold px-5 py-2.5 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors"
             >
-              Login
+              {t('login')}
             </button>
             <button 
               onClick={openSignup}
               className="green-gradient text-white font-black px-6 py-2.5 rounded-2xl shadow-lg shadow-emerald-400/20 hover:shadow-emerald-400/40 hover:-translate-y-0.5 transition-all text-sm sm:text-base"
             >
-              Sign In
+              {t('signIn')}
             </button>
           </div>
         </div>
@@ -87,23 +91,23 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-black tracking-widest uppercase mb-6 border border-emerald-100/50 dark:border-emerald-500/20 shadow-sm transition-colors duration-500">
               <Zap size={14} className="animate-pulse" />
-              Next-Gen Crop Monitoring
+              {t('nextGenCrop')}
             </div>
             
             <h1 className="text-5xl sm:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-8 transition-colors duration-500">
-              Healthy Crops. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Intelligent Insights.</span>
+              {t('heroTitle1')} <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">{t('heroTitle2')}</span>
             </h1>
 
             <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-12 font-medium leading-relaxed transition-colors duration-500">
-              Detect diseases instantly with AI-powered analysis. Join thousands of farmers optimizing their yields with modern technology.
+              {t('heroDesc')}
             </p>
 
             <button 
               onClick={openLogin}
               className="group relative inline-flex items-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black px-10 py-5 rounded-2xl shadow-2xl hover:bg-slate-800 dark:hover:bg-slate-50 transition-all hover:scale-105 active:scale-95"
             >
-              Start Free Analysis
+              {t('startFreeAnalysis')}
               <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
@@ -117,10 +121,10 @@ export default function LandingPage() {
             transition={{ delay: 0.5, duration: 1 }}
             className="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center gap-8 opacity-80 dark:opacity-70 transition-all duration-500"
           >
-             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Globe size={24}/> AGRI-TECH</div>
-             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><ShieldCheck size={24}/> BIO-SAVE</div>
-             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Globe size={24}/> NATURE-GLO</div>
-             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Code size={24}/> OPEN-AGRO</div>
+             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Globe size={24}/> {t('agritech')}</div>
+             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><ShieldCheck size={24}/> {t('biosave')}</div>
+             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Globe size={24}/> {t('natureglo')}</div>
+             <div className="flex items-center gap-2 font-black text-xl text-slate-800 dark:text-white"><Code size={24}/> {t('openagro')}</div>
           </motion.div>
         </div>
       </main>

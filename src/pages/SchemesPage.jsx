@@ -15,6 +15,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import LiveIcon from '../components/LiveIcon';
+import { useLanguage } from '../context/LanguageContext';
 
 const schemeDetails = {
   "PM-Kisan Samman Nidhi": {
@@ -27,7 +28,7 @@ PM-Kisan Samman Nidhi भारत सरकार की एक योजना
 • यह पैसा 3 बराबर किस्तों (₹2000-₹2000) में दिया जाता है  
 • पैसा सीधे बैंक खाते में ट्रांसफर होता है (DBT – Direct Benefit Transfer)  
 
-2. 👨🌾 कौन आवेदन कर सकता है? (पात्रता) 
+2. 👨‍🌾 कौन आवेदन कर सकता है? (पात्रता) 
 ✔ पात्र किसान: 
 • भारत के छोटे और सीमांत किसान  
 • जिनके पास खेती योग्य जमीन है  
@@ -84,6 +85,9 @@ PM-Kisan Samman Nidhi भारत सरकार की एक योजना
 • कोई बिचौलिया नहीं  
 • आवेदन प्रक्रिया आसान  
 • हर साल निश्चित सहायता 
+
+10. 🌐 आधिकारिक वेबसाइट
+• https://pmkisan.gov.in/
     `,
     eng: `
 PM-Kisan Samman Nidhi – Full Details
@@ -94,7 +98,7 @@ PM-Kisan Samman Nidhi is a Government of India scheme created to provide financi
 • The money is given in 3 equal installments (₹2000 each)  
 • It is directly transferred to the bank account (DBT – Direct Benefit Transfer)  
 
-2. 👨🌾 Who can apply? (Eligibility) 
+2. 👨‍🌾 Who can apply? (Eligibility) 
 ✔ Eligible: 
 • Small and marginal farmers in India  
 • Farmers who own agricultural land  
@@ -151,42 +155,231 @@ You need the following documents:
 • No middlemen involved  
 • Easy application process  
 • Fixed yearly financial support
+
+10. 🌐 Official Website
+• https://pmkisan.gov.in/
+    `
+  },
+  "Pradhan Mantri Fasal Bima Yojana": {
+    hindi: `
+प्रधानमंत्री फसल बीमा योजना (PMFBY) – पूरी जानकारी
+
+1. 📌 यह योजना क्या है?
+प्रधानमंत्री फसल बीमा योजना (PMFBY) एक सरकारी फसल बीमा योजना है जो प्राकृतिक आपदाओं, कीटों और रोगों के कारण फसलों के नुकसान की स्थिति में किसानों को बीमा कवरेज और वित्तीय सहायता प्रदान करती है।
+
+2. 👨‍🌾 कौन आवेदन कर सकता है? (पात्रता)
+✔ पात्र:
+• अधिसूचित क्षेत्रों में अधिसूचित फसलें उगाने वाले सभी किसान।
+• बटाईदार और काश्तकार किसान भी पात्र हैं।
+• संस्थागत ऋण लेने वाले किसानों के लिए यह अनिवार्य है (हालाँकि अब इसे स्वैच्छिक बनाने के प्रयास किए जा रहे हैं)।
+
+3. 💰 फायदे (Benefits)
+• ओलावृष्टि, भूस्खलन, बाढ़, सूखा और बेमौसम बारिश जैसे प्राकृतिक जोखिमों के खिलाफ सुरक्षा।
+• बहुत कम प्रीमियम (खरीफ के लिए 2%, रबी के लिए 1.5%, और वाणिज्यिक फसलों के लिए 5%)।
+• कटाई के बाद के नुकसान के लिए भी सुरक्षा उपलब्ध है।
+
+4. 📝 आवेदन कैसे करें?
+⌨️ ऑनलाइन तरीका:
+• PMFBY की आधिकारिक वेबसाइट (pmfby.gov.in) पर जाएं।
+• 'Farmer Corner' पर क्लिक करें और पंजीकरण करें।
+• फसल और जमीन का विवरण भरकर प्रीमियम का भुगतान करें।
+
+5. 📄 जरूरी दस्तावेज
+• आधार कार्ड
+• बैंक पासबुक (IFSC कोड के साथ)
+• जमीन के कागजात (खसरा/खतौनी)
+• बुवाई प्रमाण पत्र (Sowing Certificate)
+• रद्द किया गया चेक (Cancelled Check)
+
+6. 🌐 आधिकारिक वेबसाइट
+• https://pmfby.gov.in/
+    `,
+    eng: `
+Pradhan Mantri Fasal Bima Yojana (PMFBY) – Full Details
+
+1. 📌 What is this scheme?
+PMFBY is a government-sponsored crop insurance scheme that provides financial support and insurance coverage to farmers in case of crop failure due to natural calamities, pests, and diseases.
+
+2. 👨‍🌾 Who can apply? (Eligibility)
+✔ Eligible:
+• All farmers growing notified crops in notified areas are eligible.
+• This includes sharecroppers and tenant farmers.
+• Mandatory for farmers who have taken institutional loans (though evolving towards voluntary).
+
+3. 💰 Benefits
+• Coverage against non-preventable natural risks such as drought, flood, pests, and storms.
+• Very low premium rates for farmers (2% for Kharif, 1.5% for Rabi, and 5% for commercial crops).
+• Post-harvest losses are also covered in specific conditions.
+
+4. 📝 How to apply?
+⌨️ Online method:
+• Visit the official PMFBY website (pmfby.gov.in).
+• Click on 'Farmer Corner' and login/register.
+• Fill in crop/land details and pay the premium online.
+
+5. 📄 Required documents
+• Aadhaar Card
+• Bank Passbook (with IFSC)
+• Land Records (Khasra / Khatauni)
+• Sowing Certificate or proof of crop sown
+• Identity Proof
+
+6. 🌐 Official Website
+• https://pmfby.gov.in/
+    `
+  },
+  "PM Krishi Sinchai Yojana": {
+    hindi: `
+प्रधानमंत्री कृषि सिंचाई योजना (PMKSY) – पूरी जानकारी
+
+1. 📌 यह योजना क्या है?
+PMKSY का उद्देश्य "हर खेत को पानी" और "प्रति बूंद अधिक फसल" के लक्ष्य के साथ सिंचाई नेटवर्क का विस्तार करना और पानी के उपयोग की दक्षता में सुधार करना है।
+
+2. 👨‍🌾 फायदे (Benefits)
+• ड्रिप और स्प्रिंकलर (बूंद-बूंद और फुहार) सिंचाई प्रणालियों के लिए भारी सब्सिडी।
+• जल स्रोतों का विकास और सुदृढ़ीकरण।
+• खेती योग्य क्षेत्र का विस्तार और मृदा स्वास्थ्य में सुधार।
+• पानी की बर्बादी में कमी और उच्च फसल पैदावार।
+
+3. 📝 आवेदन कैसे करें?
+⌨️ ऑनलाइन तरीका:
+• PMKSY पोर्टल या अपने राज्य के कृषि विभाग की आधिकारिक वेबसाइट पर जाएँ।
+• सूक्ष्म सिंचाई योजना (Micro Irrigation Scheme) के लिए आवेदन करें।
+
+4. 📄 जरूरी दस्तावेज
+• आधार कार्ड
+• बैंक खाता विवरण
+• भूमि स्वामित्व के दस्तावेज
+• पासपोर्ट साइज फोटो
+• सिंचाई प्रणाली के लिए कोटेशन (अनुमोदित विक्रेता से)
+
+5. 🌐 आधिकारिक वेबसाइट
+• https://pmksy.gov.in/
+    `,
+    eng: `
+Pradhan Mantri Krishi Sinchai Yojana (PMKSY) – Full Details
+
+1. 📌 What is this scheme?
+PMKSY is a national mission to improve farm productivity and ensure better utilization of water resources. Its mottos are "Har Khet Ko Pani" (Water for every field) and "Per Drop More Crop".
+
+2. 👨‍🌾 Benefits
+• Subsidies for Drip and Sprinkler irrigation systems to save water.
+• Development of local water sources and renovation of traditional water bodies.
+• Improvement in water use efficiency at the farm level.
+• Higher crop yields through precise water management.
+
+3. 📝 How to apply?
+⌨️ Online method:
+• Visit the official PMKSY portal or your state's agriculture department website.
+• Register as a beneficiary and apply for the Micro Irrigation component.
+
+4. 📄 Required documents
+• Aadhaar Card
+• Bank account details
+• Land ownership records
+• Passport size photographs
+• Quotation for the irrigation system from an authorized dealer
+
+5. 🌐 Official Website
+• https://pmksy.gov.in/
+    `
+  },
+  "Agricultural Mechanization Subsidies": {
+    hindi: `
+कृषि यंत्रीकरण पर उप-मिशन (SMAM) – पूरी जानकारी
+
+1. 📌 यह योजना क्या है?
+इस योजना का उद्देश्य किसानों को आधुनिक कृषि मशीनरी खरीदने के लिए वित्तीय सहायता (सब्सिडी) प्रदान करके खेती के काम को आसान और अधिक उत्पादक बनाना है।
+
+2. 👨‍🌾 फायदे (Benefits)
+• ट्रैक्टर, पावर टिलर, रोटावेटर, स्प्रेयर और अन्य मशीनों पर 40% से 50% तक की सब्सिडी।
+• कस्टम हायरिंग सेंटर (CHC) की स्थापना के लिए विशेष सहायता।
+• महिला किसानों और छोटे/सीमांत किसानों के लिए अतिरिक्त लाभ।
+• खेती की लागत में कमी और समय की बचत।
+
+3. 📝 आवेदन कैसे करें?
+⌨️ ऑनलाइन तरीका:
+• कृषि यंत्रीकरण पोर्टल (agrimachinery.nic.in) पर जाएँ।
+• 'Registration' बटन पर क्लिक करें और 'Farmer' चुनें।
+• विवरण भरकर आवश्यक मशीनरी के लिए सब्सिडी का अनुरोध करें।
+
+4. 📄 जरूरी दस्तावेज
+• आधार कार्ड
+• पैन कार्ड (यदि आवश्यक हो)
+• बैंक पासबुक
+• भूमि विवरण (खतौनी)
+• जाति प्रमाण पत्र (आरक्षित वर्ग के लिए)
+
+5. 🌐 आधिकारिक वेबसाइट
+• https://agrimachinery.nic.in/
+    `,
+    eng: `
+Sub-Mission on Agricultural Mechanization (SMAM) – Full Details
+
+1. 📌 What is this scheme?
+The scheme provides financial assistance (subsidies) to farmers for purchasing modern agricultural machinery, making farming operations more efficient and less labor-intensive.
+
+2. 👨‍🌾 Benefits
+• 40% to 50% subsidy on equipment like Tractors, Tillers, Rotavators, and Sprayers.
+• Support for establishing Custom Hiring Centers (CHCs) to help marginal farmers.
+• Special focus on empowering women farmers and small-scale landholders.
+• Significant reduction in time and production costs.
+
+3. 📝 How to apply?
+⌨️ Online method:
+• Visit the official agrimachinery.nic.in portal.
+• Click on 'Registration' and select the 'Farmer' category.
+• Fill in your details and apply for specific machinery subsidy.
+
+4. 📄 Required documents
+• Aadhaar Card
+• PAN Card (if applicable)
+• Bank Passbook
+• Land possession documents (Khatauni)
+• Category certificate (for SC/ST/OBC subsidies)
+
+5. 🌐 Official Website
+• https://agrimachinery.nic.in/
     `
   }
 };
 
 const schemes = [
   {
-    title: "PM-Kisan Samman Nidhi",
-    description: "Income support of ₹6000 per year in three installments to all land-holding farmer families.",
-    category: "Financial Aid",
+    id: "PM-Kisan Samman Nidhi",
+    titleKey: "pmKisanTitle",
+    descKey: "pmKisanDesc",
+    categoryKey: "financialAid",
     icon: Banknote,
     color: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-50 dark:bg-emerald-500/10",
     link: "https://pmkisan.gov.in/"
   },
   {
-    title: "Pradhan Mantri Fasal Bima Yojana",
-    description: "Financial support to farmers suffering crop loss/damage arising out of unforeseen events.",
-    category: "Insurance",
+    id: "Pradhan Mantri Fasal Bima Yojana",
+    titleKey: "fasalBimaTitle",
+    descKey: "fasalBimaDesc",
+    categoryKey: "insurance",
     icon: ShieldCheck,
     color: "text-blue-600 dark:text-blue-400",
     bg: "bg-blue-50 dark:bg-blue-500/10",
     link: "https://pmfby.gov.in/"
   },
   {
-    title: "PM Krishi Sinchai Yojana",
-    description: "Improving on-farm water use efficiency through 'Per Drop More Crop' initiatives.",
-    category: "Irrigation",
+    id: "PM Krishi Sinchai Yojana",
+    titleKey: "krishiSinchaiTitle",
+    descKey: "krishiSinchaiDesc",
+    categoryKey: "irrigation",
     icon: Droplets,
     color: "text-cyan-600 dark:text-cyan-400",
     bg: "bg-cyan-50 dark:bg-cyan-500/10",
     link: "https://pmksy.gov.in/"
   },
   {
-    title: "Agricultural Mechanization Subsidies",
-    description: "Up to 50% subsidy on modern agricultural machinery like tractors, sprayers, and tillers.",
-    category: "Subsidy",
+    id: "Agricultural Mechanization Subsidies",
+    titleKey: "mechanizationTitle",
+    descKey: "mechanizationDesc",
+    categoryKey: "subsidy",
     icon: BadgePercent,
     color: "text-amber-600 dark:text-amber-400",
     bg: "bg-amber-50 dark:bg-amber-500/10",
@@ -195,14 +388,15 @@ const schemes = [
 ];
 
 export default function SchemesPage() {
+  const { language, t } = useLanguage();
   const [modalOpen, setModalOpen] = useState(false);
   const [activeDetails, setActiveDetails] = useState(null);
-  const [activeLang, setActiveLang] = useState('eng');
+  const [activeTitle, setActiveTitle] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which scheme's dropdown is open
 
-  const openDetails = (schemeId, lang) => {
-    setActiveDetails(schemeDetails[schemeId]);
-    setActiveLang(lang);
+  const openDetails = (title) => {
+    setActiveTitle(title);
+    setActiveDetails(schemeDetails[title]);
     setModalOpen(true);
     setDropdownOpen(null);
   };
@@ -218,15 +412,15 @@ export default function SchemesPage() {
           >
             <div className="flex items-center gap-3 mb-2">
               <div className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase border border-emerald-500/20">
-                Official Updates
+                {t('officialUpdates')}
               </div>
               <span className="flex items-center gap-1 text-[10px] font-black text-rose-500 uppercase tracking-widest animate-pulse">
-                <span className="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> New Schemes Added
+                <span className="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> {t('newSchemesAdded')}
               </span>
             </div>
-            <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Government Farmer Schemes</h1>
+            <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">{t('govtFarmerSchemes')}</h1>
             <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg font-medium max-w-2xl leading-relaxed">
-              Empowering the agricultural community with direct access to beneficial policies and financial security.
+              {t('empoweringAgri')}
             </p>
           </motion.div>
           
@@ -239,7 +433,7 @@ export default function SchemesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
           {schemes.map((scheme, index) => (
             <motion.div
-              key={scheme.title}
+              key={scheme.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -251,16 +445,16 @@ export default function SchemesPage() {
                     <LiveIcon icon={scheme.icon} type="pulse" size={28} />
                   </div>
                   <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase ${scheme.bg} ${scheme.color}`}>
-                    {scheme.category}
+                    {t(scheme.categoryKey)}
                   </span>
                 </div>
 
                 <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-emerald-600 transition-colors">
-                  {scheme.title}
+                  {t(scheme.titleKey)}
                 </h3>
                 
                 <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8">
-                  {scheme.description}
+                  {t(scheme.descKey)}
                 </p>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-50 dark:border-slate-800">
@@ -271,46 +465,18 @@ export default function SchemesPage() {
                        rel="noopener noreferrer"
                        className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black text-sm uppercase tracking-widest hover:gap-3 transition-all"
                     >
-                      Apply Now <ExternalLink size={16} />
+                      {t('applyNow')} <ExternalLink size={16} />
                     </a>
                     
-                    {/* Full Details Button & Dropdown */}
-                    {schemeDetails[scheme.title] && (
-                      <div className="relative">
-                        <button 
-                          onClick={() => setDropdownOpen(dropdownOpen === scheme.title ? null : scheme.title)}
-                          className="flex items-center gap-2 bg-slate-900 dark:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-600 transition-all shadow-md active:scale-95"
-                        >
-                          Full Details <ChevronDown size={14} className={`transition-transform duration-300 ${dropdownOpen === scheme.title ? 'rotate-180' : ''}`} />
-                        </button>
-                        
-                        <AnimatePresence>
-                          {dropdownOpen === scheme.title && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                              animate={{ opacity: 1, y: 0, scale: 1 }}
-                              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                              className="absolute bottom-full left-0 mb-2 w-40 glass-card p-2 border-slate-100 dark:border-slate-800 shadow-2xl z-20"
-                            >
-                              <button 
-                                onClick={() => openDetails(scheme.title, 'hindi')}
-                                className="w-full flex items-center justify-between gap-2 px-3 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors"
-                              >
-                                <span className="flex items-center gap-2"><Languages size={14} /> Hindi</span>
-                                <ArrowRight size={12} className="opacity-40" />
-                              </button>
-                              <button 
-                                onClick={() => openDetails(scheme.title, 'eng')}
-                                className="w-full flex items-center justify-between gap-2 px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition-colors mt-1"
-                              >
-                                <span className="flex items-center gap-2"><Languages size={14} /> English</span>
-                                <ArrowRight size={12} className="opacity-40" />
-                              </button>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    )}
+                    {/* Full Details Button */}
+                    <div className="relative">
+                      <button 
+                        onClick={() => openDetails(scheme.id)}
+                        className="flex items-center gap-2 bg-slate-900 dark:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-600 transition-all shadow-md active:scale-95"
+                      >
+                        {t('fullDetails')} <ArrowRight size={14} />
+                      </button>
+                    </div>
                   </div>
                   
                   <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
@@ -351,11 +517,11 @@ export default function SchemesPage() {
                 <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl shrink-0">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                      <Banknote size={24} />
+                      <Info size={24} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">PM-Kisan Scheme Details</h2>
-                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-1">Information Portal</p>
+                      <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">{t(schemes.find(s => s.id === activeTitle)?.titleKey || activeTitle)}</h2>
+                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-1">{t('informationPortal')}</p>
                     </div>
                   </div>
                   <button 
@@ -371,7 +537,7 @@ export default function SchemesPage() {
                   <div className="max-w-3xl mx-auto">
                     <div className="prose prose-slate dark:prose-invert max-w-none">
                       <pre className="whitespace-pre-wrap font-sans text-base md:text-lg leading-relaxed text-slate-700 dark:text-slate-300 tracking-tight">
-                        {activeDetails[activeLang]}
+                        {activeDetails ? activeDetails[language === 'en' ? 'eng' : 'hindi'] : (language === 'hi' ? 'हिन्दी' : 'English')}
                       </pre>
                     </div>
                   </div>
@@ -382,14 +548,14 @@ export default function SchemesPage() {
                   <div className="flex items-center gap-2">
                     <div className="flex p-1 bg-slate-200 dark:bg-slate-800 rounded-xl">
                       <button 
-                        onClick={() => setActiveLang('hindi')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${activeLang === 'hindi' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                        onClick={() => setLanguage('hi')}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${language === 'hi' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
                       >
                         हिन्दी
                       </button>
                       <button 
-                        onClick={() => setActiveLang('eng')}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${activeLang === 'eng' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                        onClick={() => setLanguage('en')}
+                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${language === 'en' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
                       >
                         ENGLISH
                       </button>
@@ -399,7 +565,7 @@ export default function SchemesPage() {
                     onClick={() => setModalOpen(false)}
                     className="w-full sm:w-auto px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black rounded-xl hover:opacity-90 transition-all active:scale-95"
                   >
-                    Close Portal
+                    {t('closePortal')}
                   </button>
                 </div>
               </motion.div>
@@ -416,13 +582,13 @@ export default function SchemesPage() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-xl text-center md:text-left">
-              <h2 className="text-3xl font-black mb-4">Need help with applications?</h2>
+              <h2 className="text-3xl font-black mb-4">{t('needHelp')}</h2>
               <p className="text-slate-400 text-lg font-medium leading-relaxed">
-                Our support team is available 24/7 to guide you through the digital enrollment process for all central and state-level schemes.
+                {t('expertHelpDesc')}
               </p>
             </div>
             <button className="flex items-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-2xl font-black shadow-xl hover:bg-slate-100 transition-all active:scale-95 whitespace-nowrap">
-              Connect with Expert <ArrowRight size={20} />
+              {t('connectExpert')} <ArrowRight size={20} />
             </button>
           </div>
         </motion.div>
@@ -430,4 +596,3 @@ export default function SchemesPage() {
     </DashboardLayout>
   );
 }
-

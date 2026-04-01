@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Cloud, Thermometer, Droplets, MapPin, AlertTriangle, Loader2, ShieldAlert } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function WeatherWidget() {
+  const { t } = useLanguage();
   const [state, setState] = useState({
     status: 'loading', // 'loading' | 'success' | 'denied' | 'error'
     location: '',
@@ -65,8 +67,8 @@ export default function WeatherWidget() {
           // Still show coordinates as a last-resort fallback
           setState({
             status: 'success',
-            location: 'Current Location',
-            city: 'Current Location',
+            location: t('currentLocation'),
+            city: t('currentLocation'),
             region: `${latitude.toFixed(2)}°N, ${longitude.toFixed(2)}°E`,
             temp: null,
             humidity: null,
@@ -90,9 +92,9 @@ export default function WeatherWidget() {
   };
 
   const getRiskMessage = (risk, humidity) => {
-    if (risk === 'High') return 'High humidity. Monitor for fungal infections.';
-    if (risk === 'Moderate') return 'Moderate risk. Watch for early disease signs.';
-    return 'Good conditions. Plants are likely healthy.';
+    if (risk === 'High') return t('highRiskMsg');
+    if (risk === 'Moderate') return t('moderateRiskMsg');
+    return t('lowRiskMsg');
   };
 
   return (
@@ -103,13 +105,13 @@ export default function WeatherWidget() {
     >
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Environment</h3>
+          <h3 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{t('environment')}</h3>
           {state.status === 'success' ? (
             <p className="text-2xl font-black text-slate-900 dark:text-white mt-1 leading-tight">{state.city}</p>
           ) : state.status === 'loading' ? (
-            <p className="text-slate-400 dark:text-slate-500 mt-1 font-semibold text-sm animate-pulse">Detecting location…</p>
+            <p className="text-slate-400 dark:text-slate-500 mt-1 font-semibold text-sm animate-pulse">{t('detectingLocation')}</p>
           ) : (
-            <p className="text-slate-400 dark:text-slate-500 mt-1 font-semibold text-sm">Location unavailable</p>
+            <p className="text-slate-400 dark:text-slate-500 mt-1 font-semibold text-sm">{t('locationUnavailable')}</p>
           )}
         </div>
         <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
@@ -135,7 +137,7 @@ export default function WeatherWidget() {
                   <Thermometer size={20} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Temp</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('temp')}</p>
                   <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">{state.temp}°C</p>
                 </div>
               </div>
@@ -144,7 +146,7 @@ export default function WeatherWidget() {
                   <Droplets size={20} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Humidity</p>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">{t('humidity')}</p>
                   <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate">{state.humidity}%</p>
                 </div>
               </div>
@@ -154,7 +156,7 @@ export default function WeatherWidget() {
           <div className={`mt-4 p-3 rounded-2xl border flex items-center gap-3 transition-colors ${getRiskColor(state.risk)}`}>
             <AlertTriangle size={20} className="shrink-0 animate-pulse" />
             <div>
-              <p className="text-[10px] font-black uppercase tracking-wider opacity-80">Risk Assessment</p>
+              <p className="text-[10px] font-black uppercase tracking-wider opacity-80">{t('riskAssessment')}</p>
               <p className="text-sm font-bold">{getRiskMessage(state.risk, state.humidity)}</p>
             </div>
           </div>
@@ -166,10 +168,10 @@ export default function WeatherWidget() {
           <Cloud size={40} className="mx-auto mb-3 opacity-30" />
           <p className="text-sm font-semibold">
             {state.status === 'denied'
-              ? 'Location permission denied.'
-              : 'Could not fetch environment data.'}
+              ? t('locationDenied')
+              : t('fetchError')}
           </p>
-          <p className="text-xs mt-1 opacity-70">Grant browser location access to see local conditions.</p>
+          <p className="text-xs mt-1 opacity-70">{t('grantAccess')}</p>
         </div>
       )}
 

@@ -20,9 +20,11 @@ import { useAuth } from '../context/AuthContext';
 import { useLocalHistory } from '../hooks/useLocalHistory';
 import LiveIcon from '../components/LiveIcon';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 // ─── Detail Modal ────────────────────────────────────────────────────────────
 function DetailModal({ item, onClose }) {
+  const { t, language } = useLanguage();
   if (!item) return null;
   const isHealthy = item.disease.toLowerCase().includes('healthy');
 
@@ -51,8 +53,8 @@ function DetailModal({ item, onClose }) {
               <span className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
                 item.severity === 'Low' ? 'bg-emerald-500' :
                 item.severity === 'Medium' ? 'bg-amber-500' : 'bg-rose-500'
-              }`}>{item.severity} Severity</span>
-              <span className="text-white/80 text-xs font-medium">{item.confidence}% confidence</span>
+              }`}>{item.severity === 'Low' ? t('low') : item.severity === 'Medium' ? t('medium') : t('high')} {t('severityTitle')}</span>
+              <span className="text-white/80 text-xs font-medium">{item.confidence}% {t('confidence')}</span>
             </div>
           </div>
         )}
@@ -66,10 +68,18 @@ function DetailModal({ item, onClose }) {
                   ? <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
                   : <AlertTriangle size={18} className="text-rose-500 shrink-0" />}
                 <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                  {isHealthy ? 'Healthy' : 'Disease Detected'}
+                  {isHealthy ? t('healthyStatus') : t('diseaseDetectedStatus')}
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white capitalize">{item.disease}</h2>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white capitalize">
+                {t(item.disease === 'Healthy' ? 'healthy' : 
+                   item.disease === 'Apple___Apple_scab' ? 'appleScab' :
+                   item.disease === 'Apple___Black_rot' ? 'appleBlackRot' :
+                   item.disease === 'Corn_(maize)___Common_rust' ? 'cornRust' :
+                   item.disease === 'Tomato___Early_blight' ? 'tomatoEarlyBlight' :
+                   item.disease === 'Tomato___Late_blight' ? 'tomatoLateBlight' :
+                   'unknown') || item.disease.replace(/_/g, ' ')}
+              </h2>
               <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-xs mt-1">
                 <Calendar size={12} />
                 {new Date(item.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -83,7 +93,9 @@ function DetailModal({ item, onClose }) {
           </div>
 
           {/* Description */}
-          <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">{item.description}</p>
+          <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+            {typeof item.description === 'object' ? (item.description[language] || item.description['en']) : item.description}
+          </p>
 
           {/* Treatment */}
           {item.treatment && (
@@ -91,27 +103,27 @@ function DetailModal({ item, onClose }) {
               <div className="flex gap-3">
                 <Leaf size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Treatment</p>
+                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">{t('recommendedTreatment')}</p>
                   <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
-                    {item.treatment.recommended?.map((t, i) => <li key={i}>{t}</li>)}
+                    {(Array.isArray(item.treatment.recommended) ? item.treatment.recommended : (item.treatment.recommended?.[language] || item.treatment.recommended?.['en'] || []))?.map((t, i) => <li key={i}>{t}</li>)}
                   </ul>
                 </div>
               </div>
               <div className="flex gap-3">
                 <Bug size={16} className="text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pesticides</p>
+                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">{t('pesticideFertilizer')}</p>
                   <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
-                    {item.treatment.pesticides?.map((p, i) => <li key={i}>{p}</li>)}
+                    {(Array.isArray(item.treatment.pesticides) ? item.treatment.pesticides : (item.treatment.pesticides?.[language] || item.treatment.pesticides?.['en'] || []))?.map((p, i) => <li key={i}>{p}</li>)}
                   </ul>
                 </div>
               </div>
               <div className="flex gap-3">
                 <ShieldPlus size={16} className="text-blue-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Prevention</p>
+                  <p className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">{t('preventiveMeasures')}</p>
                   <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
-                    {item.treatment.preventive?.map((pm, i) => <li key={i}>{pm}</li>)}
+                    {(Array.isArray(item.treatment.preventive) ? item.treatment.preventive : (item.treatment.preventive?.[language] || item.treatment.preventive?.['en'] || []))?.map((pm, i) => <li key={i}>{pm}</li>)}
                   </ul>
                 </div>
               </div>
@@ -125,6 +137,7 @@ function DetailModal({ item, onClose }) {
 
 // ─── Confirmation Modal ──────────────────────────────────────────────────────
 function ConfirmationModal({ isOpen, onConfirm, onCancel, title, message, variant = 'danger' }) {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   return (
@@ -155,7 +168,7 @@ function ConfirmationModal({ isOpen, onConfirm, onCancel, title, message, varian
             onClick={onCancel}
             className="flex-1 py-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           >
-            Cancel
+            {t('cancel')}
           </button>
           <button
             onClick={onConfirm}
@@ -163,7 +176,7 @@ function ConfirmationModal({ isOpen, onConfirm, onCancel, title, message, varian
               variant === 'danger' ? 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/30' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/30'
             }`}
           >
-            Confirm
+            {t('confirm')}
           </button>
         </div>
       </motion.div>
@@ -173,6 +186,7 @@ function ConfirmationModal({ isOpen, onConfirm, onCancel, title, message, varian
 
 // ─── History Card ─────────────────────────────────────────────────────────────
 function HistoryCard({ item, onDelete, onView, index }) {
+  const { t } = useLanguage();
   const isHealthy = item.disease.toLowerCase().includes('healthy');
   const date = new Date(item.createdAt);
 
@@ -204,7 +218,7 @@ function HistoryCard({ item, onDelete, onView, index }) {
           item.severity === 'Medium' ? 'bg-amber-500/90' :
           'bg-rose-500/90'
         }`}>
-          {item.severity}
+          {item.severity === 'Low' ? t('low') : item.severity === 'Medium' ? t('medium') : t('high')}
         </div>
         {/* Delete Button */}
         <button
@@ -232,17 +246,23 @@ function HistoryCard({ item, onDelete, onView, index }) {
           {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
         <h3 className="text-base font-bold text-slate-900 dark:text-white capitalize mb-1 leading-tight line-clamp-2">
-          {item.disease}
+          {t(item.disease === 'Healthy' ? 'healthy' : 
+             item.disease === 'Apple___Apple_scab' ? 'appleScab' :
+             item.disease === 'Apple___Black_rot' ? 'appleBlackRot' :
+             item.disease === 'Corn_(maize)___Common_rust' ? 'cornRust' :
+             item.disease === 'Tomato___Early_blight' ? 'tomatoEarlyBlight' :
+             item.disease === 'Tomato___Late_blight' ? 'tomatoLateBlight' :
+             'unknown') || item.disease.replace(/_/g, ' ')}
         </h3>
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
           <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-            {item.confidence}% confidence
+            {item.confidence}% {t('confidence')}
           </span>
           <button
             onClick={() => onView(item)}
             className="flex items-center gap-1 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
           >
-            Details <ChevronRight size={14} />
+            {t('details')} <ChevronRight size={14} />
           </button>
         </div>
       </div>
@@ -252,6 +272,7 @@ function HistoryCard({ item, onDelete, onView, index }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function HistoryPage() {
+  const { t, language } = useLanguage();
   const { user } = useAuth();
   const { history, deleteEntry, clearAll } = useLocalHistory(user?.uid);
   const [searchTerm, setSearchTerm] = useState('');
@@ -282,11 +303,11 @@ export default function HistoryPage() {
           {/* Header */}
           <section className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight transition-colors duration-500">Analysis History</h1>
+              <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight transition-colors duration-500">{t('analysisHistory')}</h1>
               <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg transition-colors duration-500 font-medium italic">
                 {history.length > 0
-                  ? `${history.length} scan${history.length !== 1 ? 's' : ''} saved locally on this device.`
-                  : 'Your past plant health reports will appear here.'}
+                  ? `${history.length} ${history.length === 1 ? t('scanSavedLocally') : t('scansSavedLocally')}`
+                  : t('pastReportsAppearHere')}
               </p>
             </div>
 
@@ -296,7 +317,7 @@ export default function HistoryPage() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
                 <input
                   type="text"
-                  placeholder="Search by disease..."
+                  placeholder={t('searchByDisease')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-emerald-500 dark:text-white rounded-2xl py-3 pl-11 pr-4 outline-none transition-all shadow-sm w-60 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500"
@@ -310,7 +331,7 @@ export default function HistoryPage() {
                   className="flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm transition-all bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20 shadow-sm"
                 >
                   <Trash size={16} />
-                  Clear All
+                  {t('clearAll')}
                 </button>
               )}
 
@@ -319,7 +340,7 @@ export default function HistoryPage() {
                 to="/analysis"
                 className="flex items-center gap-2 px-4 py-3 rounded-2xl green-gradient text-white font-bold text-sm shadow-lg shadow-emerald-400/30 hover:shadow-emerald-400/50 hover:-translate-y-0.5 transition-all"
               >
-                New Analysis
+                {t('startAiScan')}
               </Link>
             </div>
           </section>
@@ -332,13 +353,13 @@ export default function HistoryPage() {
               className="glass-card text-center py-24 text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-700"
             >
               <LiveIcon icon={HistoryIcon} type="float" size={80} className="mb-6 opacity-20 mx-auto" />
-              <p className="text-xl font-bold tracking-tight text-slate-600 dark:text-slate-400">No history yet</p>
-              <p className="text-sm mt-2 mb-8 text-slate-400 dark:text-slate-500">Run your first plant disease analysis to see it here.</p>
+              <p className="text-xl font-bold tracking-tight text-slate-600 dark:text-slate-400">{t('noHistoryYet')}</p>
+              <p className="text-sm mt-2 mb-8 text-slate-400 dark:text-slate-500">{t('runFirstAnalysis')}</p>
               <Link
                 to="/analysis"
                 className="inline-flex items-center gap-2 px-6 py-3 green-gradient text-white font-bold rounded-2xl shadow-lg shadow-emerald-400/30 hover:shadow-emerald-400/50 hover:-translate-y-0.5 transition-all"
               >
-                Start Analysis
+                {t('startAnalysis')}
               </Link>
             </motion.div>
           ) : filteredHistory.length === 0 ? (
@@ -348,8 +369,8 @@ export default function HistoryPage() {
               className="glass-card text-center py-16 text-slate-400 dark:text-slate-500"
             >
               <Search size={48} className="mb-4 opacity-20 mx-auto" />
-              <p className="text-lg font-bold">No results for "{searchTerm}"</p>
-              <p className="text-sm mt-1">Try a different search term.</p>
+              <p className="text-lg font-bold">{t('noResultsFor')} "{searchTerm}"</p>
+              <p className="text-sm mt-1">{t('tryDifferentSearch')}</p>
             </motion.div>
           ) : (
             <AnimatePresence mode="popLayout">
@@ -382,8 +403,8 @@ export default function HistoryPage() {
             isOpen={true}
             onConfirm={handleConfirmDelete}
             onCancel={() => setDeleteTargetId(null)}
-            title="Delete this scan?"
-            message="This action will permanently remove this analysis result from your local history. Are you sure?"
+            title={t('deleteScanPrompt')}
+            message={t('deleteScanMessage')}
           />
         )}
         
@@ -393,8 +414,8 @@ export default function HistoryPage() {
             isOpen={true}
             onConfirm={handleConfirmClearAll}
             onCancel={() => setIsConfirmingClearAll(false)}
-            title="Clear all history?"
-            message={`This will permanently delete all ${history.length} saved analysis results. This device only.`}
+            title={t('clearAllPrompt')}
+            message={t('clearAllMessage')}
           />
         )}
       </AnimatePresence>

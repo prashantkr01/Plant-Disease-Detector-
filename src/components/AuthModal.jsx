@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, LogIn, UserPlus, Code, Globe, AlertCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import LiveIcon from './LiveIcon';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
+  const { t } = useLanguage();
   const [mode, setMode] = useState(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,10 +88,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                     <LiveIcon icon={mode === 'login' ? LogIn : UserPlus} type="float" size={28} />
                   </div>
                   <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight transition-colors duration-500">
-                    {mode === 'login' ? 'Welcome Back' : 'Join PlantAI'}
+                    {mode === 'login' ? t('welcomeBack') : t('joinPlantAi')}
                   </h2>
                   <p className="text-slate-500 dark:text-slate-400 font-medium mt-1 transition-colors duration-500">
-                    {mode === 'login' ? 'Sign in to access your dashboard' : 'Start monitoring your crops today'}
+                    {mode === 'login' ? t('signInToAccess') : t('startMonitoring')}
                   </p>
                 </div>
 
@@ -107,7 +109,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
 
                   {mode === 'signup' && (
                     <div className="space-y-1.5">
-                      <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">Full Name</label>
+                      <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">{t('fullName')}</label>
                       <div className="relative group">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
                         <input 
@@ -125,7 +127,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                   )}
 
                   <div className="space-y-1.5">
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">Email Address</label>
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">{t('emailAddress')}</label>
                     <div className="relative group">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
                       <input 
@@ -142,7 +144,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">Password</label>
+                    <label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 uppercase tracking-wider text-[10px]">{t('password')}</label>
                     <div className="relative group">
                       <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
                       <input 
@@ -168,7 +170,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                     ) : (
                       <>
                         <LiveIcon icon={mode === 'login' ? LogIn : UserPlus} type="none" size={20} className="group-hover:translate-x-1 transition-transform" />
-                        {mode === 'login' ? 'Sign In' : 'Create Account'}
+                        {mode === 'login' ? t('signIn') : t('createAccount')}
                       </>
                     )}
                   </button>
@@ -177,7 +179,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                 <div className="mt-5">
                   <div className="relative mb-6">
                     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-100 dark:border-slate-800"></div></div>
-                    <div className="relative flex justify-center text-xs uppercase"><span className="bg-white/50 dark:bg-slate-900/50 px-3 text-slate-400 dark:text-slate-500 font-bold tracking-widest backdrop-blur-sm transition-colors duration-500">Or continue with</span></div>
+                    <div className="relative flex justify-center text-xs uppercase"><span className="bg-white/50 dark:bg-slate-900/50 px-3 text-slate-400 dark:text-slate-500 font-bold tracking-widest backdrop-blur-sm transition-colors duration-500">{t('orContinueWith')}</span></div>
                   </div>
 
                   <div className="space-y-3">
@@ -192,18 +194,18 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                         <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
                         <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C41.135,35.545,44,30.12,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
                       </svg>
-                      Continue with Google
+                      {t('continueWithGoogle')}
                     </button>
                   </div>
                 </div>
 
                 <p className="text-center mt-6 text-slate-500 dark:text-slate-400 font-medium transition-colors duration-500">
-                  {mode === 'login' ? "Don't have an account?" : "Already have an account?"} {' '}
+                  {mode === 'login' ? t('dontHaveAccount') : t('alreadyHaveAccount')} {' '}
                   <button 
                     onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
                     className="text-emerald-600 font-black hover:underline"
                   >
-                    {mode === 'login' ? 'Create Account' : 'Login'}
+                    {mode === 'login' ? t('createAccount') : t('login')}
                   </button>
                 </p>
               </div>

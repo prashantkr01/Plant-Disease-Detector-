@@ -15,6 +15,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import LiveIcon from '../components/LiveIcon';
 import WeatherWidget from '../components/WeatherWidget';
+import { useLanguage } from '../context/LanguageContext';
 
 const TiltCard = ({ children, className = "" }) => {
   const x = useMotionValue(0);
@@ -59,6 +60,7 @@ const TiltCard = ({ children, className = "" }) => {
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [stats, setStats] = useState({
     total: 0,
     healthy: 0,
@@ -87,9 +89,9 @@ export default function DashboardPage() {
   }, [user]);
 
   const cards = [
-    { title: 'Total Analyses', value: stats.total, icon: History, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 border-blue-100 dark:bg-blue-500/10 dark:border-blue-500/20', type: 'spin' },
-    { title: 'Healthy Plants', value: stats.healthy, icon: ShieldCheck, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-500/20', type: 'pulse' },
-    { title: 'Issues Detected', value: stats.diseased, icon: TrendingUp, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 border-amber-100 dark:bg-amber-500/10 dark:border-amber-500/20', type: 'bounce' },
+    { title: t('totalAnalyses'), value: stats.total, icon: History, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 border-blue-100 dark:bg-blue-500/10 dark:border-blue-500/20', type: 'spin' },
+    { title: t('healthyPlants'), value: stats.healthy, icon: ShieldCheck, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-500/20', type: 'pulse' },
+    { title: t('issuesDetected'), value: stats.diseased, icon: TrendingUp, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 border-amber-100 dark:bg-amber-500/10 dark:border-amber-500/20', type: 'bounce' },
   ];
 
   return (
@@ -100,15 +102,15 @@ export default function DashboardPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white">Hello, {user?.displayName?.split(' ')[0] || 'User'}! 👋</h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium italic">Your personalized AI crop insights are ready.</p>
+            <h1 className="text-3xl font-black text-slate-900 dark:text-white">{t('hello')}, {user?.displayName?.split(' ')[0] || 'User'}! 👋</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium italic">{t('personalInsights')}</p>
           </motion.div>
           <Link 
             to="/analysis"
             className="flex items-center justify-center gap-2 green-gradient text-white px-8 py-4 rounded-2xl font-black shadow-lg shadow-emerald-400/30 hover:shadow-emerald-400/50 hover:-translate-y-1 transition-all duration-300 active:scale-95"
           >
             <LiveIcon icon={PlusCircle} type="spin" size={22} />
-            Start AI Scan
+            {t('startAiScan')}
           </Link>
         </section>
 
@@ -149,17 +151,17 @@ export default function DashboardPage() {
             >
               <div className="relative z-10">
                 <div className="w-fit px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-4 border border-emerald-500/20">
-                  Advanced Detection
+                  {t('advancedDetection')}
                 </div>
-                <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">AI Crop Analysis</h2>
+                <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">{t('aiCropAnalysis')}</h2>
                 <p className="text-slate-500 dark:text-slate-400 mb-10 max-w-sm text-lg font-medium leading-relaxed">
-                  Leverage our neural network to diagnose crop health with 99.2% accuracy in real-time.
+                  {t('aiCropAnalysisDesc')}
                 </p>
                 <Link 
                   to="/analysis"
                   className="inline-flex items-center gap-3 text-emerald-600 dark:text-emerald-400 font-black text-xl group-hover:gap-5 transition-all"
                 >
-                  Initiate Scan <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                  {t('initiateScan')} <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
               <div className="absolute top-1/2 right-[-40px] translate-y-[-50%] opacity-[0.05] dark:opacity-20 group-hover:opacity-30 group-hover:scale-125 transition-all duration-1000 ease-out">
@@ -177,21 +179,23 @@ export default function DashboardPage() {
             <div className="relative z-10 h-full flex flex-col justify-between">
               <div>
                 <div className="w-fit px-3 py-1 bg-white/10 text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6 border border-white/10 backdrop-blur-md">
-                  Optimization Guide
+                  {t('optimizationGuide')}
                 </div>
-                <h2 className="text-3xl font-black mb-4 text-white">Precision Scanning</h2>
+                <h2 className="text-3xl font-black mb-4 text-white">{t('precisionScanning')}</h2>
                 <p className="text-slate-400 mb-8 text-lg leading-relaxed font-medium">
-                  Position the leaf within the holographic guides for optimal disease trajectory mapping.
+                  {t('scanningGuide')}
                 </p>
               </div>
               <div className="flex items-center gap-4 text-emerald-400 font-black bg-white/5 w-fit px-6 py-3 rounded-2xl backdrop-blur-xl border border-white/5 shadow-2xl">
                 <LiveIcon icon={ShieldCheck} type="pulse" size={24} />
-                Neural Precision 2.0
+                {t('neuralPrecision')}
               </div>
             </div>
           </motion.div>
         </div>
       </div>
     </DashboardLayout>
+
+
   );
 }

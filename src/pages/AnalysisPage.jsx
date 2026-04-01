@@ -26,8 +26,11 @@ import { useAuth } from '../context/AuthContext';
 import LiveIcon from '../components/LiveIcon';
 import { useLocalHistory } from '../hooks/useLocalHistory';
 
+import { useLanguage } from '../context/LanguageContext';
+
 export default function AnalysisPage() {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const { addEntry } = useLocalHistory(user?.uid);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -103,17 +106,29 @@ export default function AnalysisPage() {
 
       // 2. Map disease details
       const details = diseaseData[aiResult.label] || {
-        description: 'No specific details available for this condition.',
+        description: { 
+          en: 'No specific details available for this condition.', 
+          hi: 'इस स्थिति के लिए कोई विशिष्ट विवरण उपलब्ध नहीं है।' 
+        },
         severity: 'Medium',
         treatment: {
-          recommended: ['Consult an agricultural expert'],
-          pesticides: ['N/A'],
-          preventive: ['Ensure proper plant care'],
+          recommended: { 
+            en: ['Consult an agricultural expert'], 
+            hi: ['कृषि विशेषज्ञ से सलाह लें'] 
+          },
+          pesticides: { 
+            en: ['N/A'], 
+            hi: ['उपलब्ध नहीं'] 
+          },
+          preventive: { 
+            en: ['Ensure proper plant care'], 
+            hi: ['पौधों की उचित देखभाल सुनिश्चित करें'] 
+          },
         },
       };
 
       const analysisResult = {
-        disease: aiResult.label.replace(/_/g, ' '),
+        disease: aiResult.label,
         confidence: aiResult.confidence,
         source: aiResult.source,
         description: details.description,
@@ -161,15 +176,17 @@ export default function AnalysisPage() {
       <div className="max-w-4xl mx-auto space-y-8">
         <section className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight lg:text-5xl mb-2 transition-colors duration-500">Disease Analysis</h1>
-            <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl transition-colors duration-500 font-medium italic">Upload a photo of your plant leaf for instant AI-powered detection and treatment recommendations.</p>
+            <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight lg:text-5xl mb-2 transition-colors duration-500">
+               {t('diseaseAnalysis').split(' ')[0]} <span className="text-emerald-600">{t('diseaseAnalysis').split(' ')[1]}</span>
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl transition-colors duration-500 font-medium italic">{t('analysisDesc')}</p>
           </div>
           <Link
             to="/history"
             className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold text-sm hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-300 dark:hover:border-emerald-500 transition-all shrink-0 shadow-sm"
           >
             <History size={16} />
-            View History
+            {t('viewHistory')}
           </Link>
         </section>
 
@@ -182,9 +199,9 @@ export default function AnalysisPage() {
                   <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/20 transition-colors duration-300">
                     <LiveIcon icon={Upload} type="bounce" size={40} />
                   </div>
-                  <span className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">Choose an image</span>
-                  <span className="text-slate-500 dark:text-slate-400 text-base mt-2 font-medium">or drag and drop here</span>
-                  <span className="text-slate-400 dark:text-slate-500 text-xs mt-1">PNG, JPG up to 5MB</span>
+                  <span className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">{t('chooseImage')}</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-base mt-2 font-medium">{t('dragDrop')}</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-xs mt-1">{t('fileLimits')}</span>
                   <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                 </label>
               ) : (
@@ -215,7 +232,7 @@ export default function AnalysisPage() {
             >
               <div className="flex items-center justify-center gap-3">
                 {isAnalyzing && <LiveIcon icon={FlaskConical} type="spin" size={24} />}
-                {isAnalyzing ? 'Analyzing...' : 'Run AI Analysis'}
+                {isAnalyzing ? t('analyzing') : t('runAnalysis')}
               </div>
             </button>
           </div>
@@ -235,8 +252,8 @@ export default function AnalysisPage() {
                     <div className="absolute inset-0 bg-emerald-400 blur-2xl opacity-40 rounded-full animate-pulse"></div>
                     <LiveIcon icon={FlaskConical} type="wiggle" size={64} className="text-emerald-600 dark:text-emerald-400 relative z-10" />
                   </div>
-                  <h3 className="text-2xl font-black tracking-tight mb-2 text-slate-800 dark:text-white">Analyzing Image...</h3>
-                  <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">Running deep learning models</p>
+                  <h3 className="text-2xl font-black tracking-tight mb-2 text-slate-800 dark:text-white">{t('analyzingImage')}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">{t('runningModels')}</p>
                 </motion.div>
               ) : result ? (
                 <motion.div
@@ -252,9 +269,9 @@ export default function AnalysisPage() {
                           <LiveIcon icon={result.disease.toLowerCase().includes('healthy') ? CheckCircle2 : AlertTriangle} type="pulse" size={32} />
                         </div>
                         <div>
-                          <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Analysis Result</h3>
+                          <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">{t('analysisResultTitle')}</h3>
                           <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">
-                            Confidence: {result.confidence}%
+                            {t('confidenceTitle')}: {result.confidence}%
                             {result.source && <span className="ml-2 text-emerald-500 normal-case font-semibold">via {result.source}</span>}
                           </p>
                         </div>
@@ -264,16 +281,22 @@ export default function AnalysisPage() {
                         result.severity === 'Medium' ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-400' :
                         'bg-rose-100 dark:bg-rose-500/20 text-rose-800 dark:text-rose-400'
                       }`}>
-                        {result.severity} Severity
+                        {result.severity === 'Low' ? t('low') : result.severity === 'Medium' ? t('medium') : t('high')} {t('severityTitle')}
                       </div>
                     </div>
 
                     <h2 className="text-4xl font-black text-slate-900 dark:text-white capitalize mb-4 tracking-tight leading-none">
-                      {result.disease}
+                      {t(result.disease === 'Healthy' ? 'healthy' : 
+                         result.disease === 'Apple___Apple_scab' ? 'appleScab' :
+                         result.disease === 'Apple___Black_rot' ? 'appleBlackRot' :
+                         result.disease === 'Corn_(maize)___Common_rust' ? 'cornRust' :
+                         result.disease === 'Tomato___Early_blight' ? 'tomatoEarlyBlight' :
+                         result.disease === 'Tomato___Late_blight' ? 'tomatoLateBlight' :
+                         'unknown') || result.disease.replace(/_/g, ' ')}
                     </h2>
 
                     <p className="text-slate-600 dark:text-slate-300 text-lg mb-10 leading-relaxed font-medium">
-                      {result.description}
+                      {result.description[language] || result.description['en']}
                     </p>
 
                     <div className="space-y-8 bg-slate-50 dark:bg-slate-900/60 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 transition-colors duration-500">
@@ -282,9 +305,9 @@ export default function AnalysisPage() {
                           <LiveIcon icon={Leaf} type="float" size={24} />
                         </div>
                         <div>
-                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Recommended Treatment</h4>
+                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">{t('recommendedTreatment')}</h4>
                           <ul className="list-disc list-inside text-base font-medium text-slate-600 dark:text-slate-400 space-y-2">
-                            {result.treatment.recommended.map((t, i) => <li key={i}>{t}</li>)}
+                            {(result.treatment.recommended[language] || result.treatment.recommended['en']).map((t, i) => <li key={i}>{t}</li>)}
                           </ul>
                         </div>
                       </div>
@@ -294,9 +317,9 @@ export default function AnalysisPage() {
                           <LiveIcon icon={Bug} type="wiggle" size={24} />
                         </div>
                         <div>
-                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Pesticide/Fertilizer</h4>
+                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">{t('pesticideFertilizer')}</h4>
                           <ul className="list-disc list-inside text-base font-medium text-slate-600 dark:text-slate-400 space-y-2">
-                            {result.treatment.pesticides.map((p, i) => <li key={i}>{p}</li>)}
+                            {(result.treatment.pesticides[language] || result.treatment.pesticides['en']).map((p, i) => <li key={i}>{p}</li>)}
                           </ul>
                         </div>
                       </div>
@@ -306,9 +329,9 @@ export default function AnalysisPage() {
                           <LiveIcon icon={ShieldPlus} type="pulse" size={24} />
                         </div>
                         <div>
-                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">Preventive Measures</h4>
+                          <h4 className="font-black text-lg text-slate-900 dark:text-white mb-2">{t('preventiveMeasures')}</h4>
                           <ul className="list-disc list-inside text-base font-medium text-slate-600 dark:text-slate-400 space-y-2">
-                            {result.treatment.preventive.map((pm, i) => <li key={i}>{pm}</li>)}
+                            {(result.treatment.preventive[language] || result.treatment.preventive['en']).map((pm, i) => <li key={i}>{pm}</li>)}
                           </ul>
                         </div>
                       </div>
@@ -323,22 +346,22 @@ export default function AnalysisPage() {
                       className="flex-1 flex items-center justify-center gap-3 bg-slate-900 dark:bg-slate-700 text-white font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50"
                     >
                       <LiveIcon icon={Download} type="bounce" size={20} />
-                      {isGeneratingPdf ? 'Generating...' : 'Download PDF'}
+                      {isGeneratingPdf ? t('generating') : t('downloadPdf')}
                     </button>
                     <button
                       onClick={clearSelection}
                       className="flex-1 flex items-center justify-center gap-3 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 font-bold py-4 rounded-2xl hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors duration-300"
                     >
                       <LiveIcon icon={RefreshCcw} type="spin" size={20} />
-                      Analyze Another Photo
+                      {t('analyzeAnother')}
                     </button>
                   </div>
 
                   {/* Quick link to history */}
                   <p className="text-center text-sm text-slate-400 dark:text-slate-500 mt-4">
-                    ✅ Result saved to{' '}
+                    ✅ {t('resultSaved')}{' '}
                     <Link to="/history" className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">
-                      Analysis History
+                      {t('analysisHistory')}
                     </Link>
                   </p>
                 </motion.div>
@@ -351,8 +374,8 @@ export default function AnalysisPage() {
                   className="h-full glass-card border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center p-12 text-center text-slate-400 dark:text-slate-500 min-h-[400px]"
                 >
                   <LiveIcon icon={ImageIcon} type="float" size={64} className="mb-6 opacity-20" />
-                  <p className="font-medium text-lg">Analysis results will magically appear here.</p>
-                  <p className="text-sm mt-2 opacity-70">Upload a leaf image and click Run AI Analysis</p>
+                  <p className="font-medium text-lg">{t('emptyResults')}</p>
+                  <p className="text-sm mt-2 opacity-70">{t('uploadLeafPrompt')}</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -360,5 +383,6 @@ export default function AnalysisPage() {
         </div>
       </div>
     </DashboardLayout>
+
   );
 }
