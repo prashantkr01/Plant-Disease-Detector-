@@ -17,9 +17,9 @@
   --background: 210 40% 98%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
-  --card-border: rgba(255, 255, 255, 0.7);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-blur: 16px;
+  --card-border: rgba(0, 0, 0, 0.08); /* More defined border */
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-blur: 24px;
   --accent: 158 79% 42%;
 }
 
@@ -27,9 +27,9 @@
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 4.9%;
-  --card-border: rgba(255, 255, 255, 0.08);
-  --glass-bg: rgba(15, 23, 42, 0.7);
-  --glass-blur: 24px;
+  --card-border: rgba(255, 255, 255, 0.15);
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --glass-blur: 32px;
   --accent: 158 79% 42%;
 }
 
@@ -47,14 +47,48 @@ body {
 }
 
 .glass {
-  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] shadow-xl transition-all duration-500;
+  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] transition-all duration-500;
   background: var(--glass-bg);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .glass-card {
-  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10;
+  @apply backdrop-blur-[var(--glass-blur)] border border-[var(--card-border)] rounded-[2.5rem] transition-all duration-500;
   background: var(--glass-bg);
+  /* "Border Type Shadow" - Deep, crisp, and neutral */
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.05), 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.glass-card:hover {
+  @apply -translate-y-1.5;
+  box-shadow: 
+    0 0 0 1.5px rgba(16, 185, 129, 0.1), 
+    0 25px 30px -5px rgba(0, 0, 0, 0.15), 
+    0 15px 15px -5px rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass-card {
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.05), 
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.module-glow {
+  @apply relative;
+}
+
+/* Removed greenness - Changed to neutral glow or shadow extension */
+.module-glow::after {
+  content: '';
+  @apply absolute -inset-1 bg-slate-400/5 blur-xl rounded-[3rem] opacity-0 transition-opacity duration-500 -z-10;
+}
+
+.module-glow:hover::after {
+  @apply opacity-100;
 }
 
 .green-gradient {
@@ -78,16 +112,16 @@ body {
 }
 
 .card-hover {
-  @apply transition-all duration-500 ease-out hover:-translate-y-2;
+  @apply transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300/50 rounded-full hover:bg-slate-400/80 transition-colors dark:bg-slate-700/50;
+  @apply bg-slate-300/60 rounded-full hover:bg-slate-400/90 transition-colors dark:bg-slate-700/60;
 }

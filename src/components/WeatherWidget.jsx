@@ -101,7 +101,7 @@ export default function WeatherWidget() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-6 border border-white/50 relative overflow-hidden group"
+      className="glass-card module-glow p-8 h-full relative overflow-hidden group border-white/40 dark:border-white/10"
     >
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -176,7 +176,7 @@ export default function WeatherWidget() {
       )}
 
       {/* Decorative Blur */}
-      <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-slate-500/5 blur-3xl pointer-events-none"></div>
     </motion.div>
   );
 }

@@ -121,16 +121,16 @@ export default function DashboardPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="glass-card p-8 h-full relative group overflow-hidden"
+                className="glass-card module-glow p-8 h-full relative group overflow-hidden border-white/40 dark:border-white/10"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 dark:to-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="flex items-center gap-6 relative z-10">
-                  <div className={`w-16 h-16 ${card.bg} border ${card.color} rounded-2xl flex items-center justify-center shadow-lg`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent dark:from-white/5 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="flex items-center gap-6 relative z-10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className={`w-16 h-16 ${card.bg} border-2 ${card.color} rounded-2xl flex items-center justify-center shadow-xl shadow-black/5 dark:shadow-black/20`}>
                     <LiveIcon icon={card.icon} type={card.type} size={32} />
                   </div>
                   <div>
-                    <p className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-1">{card.title}</p>
-                    <p className="text-4xl font-black text-slate-900 dark:text-white leading-tight">{card.value}</p>
+                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.25em] mb-1.5">{card.title}</p>
+                    <p className="text-4xl font-black text-slate-900 dark:text-white leading-tight tracking-tight">{card.value}</p>
                   </div>
                 </div>
               </motion.div>
@@ -147,9 +147,10 @@ export default function DashboardPage() {
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="glass-card p-10 h-full relative overflow-hidden group border-emerald-500/10 dark:border-emerald-500/20"
+              className="glass-card module-glow p-10 h-full relative overflow-hidden group border-white/40 dark:border-white/10"
             >
-              <div className="relative z-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-white/5 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative z-10 transition-transform duration-500 group-hover:scale-[1.01]">
                 <div className="w-fit px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-4 border border-emerald-500/20">
                   {t('advancedDetection')}
                 </div>
@@ -173,9 +174,10 @@ export default function DashboardPage() {
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1 bg-gradient-to-br from-slate-900 via-slate-800 to-black p-10 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden border border-white/5"
+            className="lg:col-span-1 bg-gradient-to-br from-slate-900 via-slate-800 to-black p-10 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden border border-white/10 group card-hover shadow-black/40"
           >
-            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/25 transition-all duration-1000"></div>
             <div className="relative z-10 h-full flex flex-col justify-between">
               <div>
                 <div className="w-fit px-3 py-1 bg-white/10 text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6 border border-white/10 backdrop-blur-md">
