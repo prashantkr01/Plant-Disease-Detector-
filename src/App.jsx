@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { FeatureFlagProvider } from './context/FeatureFlagContext';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
@@ -50,9 +51,11 @@ function App() {
   return (
     <LanguageProvider>
       <AuthProvider>
-        <Router>
-          <AppRoutes />
-        </Router>
+        <FeatureFlagProvider>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </FeatureFlagProvider>
       </AuthProvider>
     </LanguageProvider>
   );

@@ -3,13 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Send, X, Bot, User, Sparkles, Loader2, Minimize2 } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { useLanguage } from '../context/LanguageContext';
+import { useLocalHistory } from '../hooks/useLocalHistory';
+import { useAuth } from '../context/AuthContext';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 
 export default function ChatAssistant() {
   const { t, language } = useLanguage();
+  const { user } = useAuth();
+  const { history: localHistory } = useLocalHistory(user?.uid);
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Identify latest analysis for context
+  const latestScan = localHistory && localHistory.length > 0 ? localHistory[0] : null;
+
   const [messages, setMessages] = useState([
     { role: 'assistant', content: t('chatWelcome') }
   ]);
@@ -52,7 +60,11 @@ export default function ChatAssistant() {
         }));
 
       const chat = model.startChat({ history });
-      const promptText = `User Language: ${language === 'hi' ? 'Hindi' : 'English'}. Please reply in this language. \n\n ${input}`;
+      const contextPrompt = latestScan 
+        ? `The user's latest plant analysis was for "${latestScan.disease}" with ${latestScan.confidence}% confidence. ` 
+        : "";
+      
+      const promptText = `User Language: ${language === 'hi' ? 'Hindi' : 'English'}. Please reply in this language. \n\n ${contextPrompt} User Question: ${input}`;
       const result = await chat.sendMessage(promptText);
       const text = result.response.text();
 

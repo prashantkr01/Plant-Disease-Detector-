@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { ArrowLeft } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import ChatAssistant from './ChatAssistant';
+import RainAlertManager from './RainAlertManager';
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const DashboardLayout = ({ children }) => {
             <div />
           )}
           <div className="flex items-center gap-3">
+            <RainAlertManager />
             <LanguageToggle />
             <ThemeToggle />
           </div>

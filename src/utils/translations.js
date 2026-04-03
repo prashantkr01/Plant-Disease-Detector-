@@ -206,6 +206,36 @@ export const translations = {
     // Not Found
     pageNotFound: "Page Not Found",
     pageNotFoundDesc: "The page you are looking for doesn't exist or has been moved.",
+
+    // Notifications
+    notifications: "Notifications",
+    viewDetails: "View Details",
+    markAllAsRead: "Mark all as read",
+    noNotifications: "No notifications yet",
+
+    // Advanced Features
+    yieldProjection: "Yield Projection",
+    carbonScore: "Carbon Score",
+    diseaseMap: "Disease Outbreak Map",
+    analytics: "Analytics Dashboard",
+    yieldEstimate: "Estimated Yield",
+    carbonSequestration: "CO2 Sequestration",
+    outbreakAlert: "Outbreak Alert",
+
+    // Rain Alert Feature
+    rainAlert: "Rain Alert",
+    rainAlertDesc: "Stay ahead with real-time weather alerts. We monitor your crops and notify you of upcoming rain or frost risks.",
+    phoneNumber: "Mobile Number",
+    phoneNumberPlaceholder: "+91 99999 00000",
+    enableAlerts: "Enable Auto-Alerts",
+    detectLocation: "Confirm Location",
+    saveAlertSettings: "Activate Alerts",
+    alertSettingsSuccess: "Success! You will receive alerts on your phone.",
+    locationDetected: "Location Synchronized",
+    invalidPhone: "Please enter a valid 10-digit Indian number (+91).",
+    testAlert: "Send Test Alert",
+    rainAlertTitle: "Farmer-First Rain Alert",
+    welcomeSms: "PlantAI: Weather monitoring is now ACTIVE for your farm. We will alert you of any rain or frost risks. Stay safe!",
   },
   hi: {
     // Navigation
@@ -414,5 +444,35 @@ export const translations = {
     // Not Found
     pageNotFound: "पेज नहीं मिला",
     pageNotFoundDesc: "आप जो पेज ढूंढ रहे हैं वह मौजूद नहीं है या हटा दिया गया है।",
+
+    // Notifications
+    notifications: "सूचनाएं",
+    viewDetails: "विवरण देखें",
+    markAllAsRead: "सभी को पढ़ा हुआ मानें",
+    noNotifications: "अभी तक कोई सूचना नहीं",
+
+    // Advanced Features
+    yieldProjection: "उपज प्रक्षेपण",
+    carbonScore: "कार्बन स्कोर",
+    diseaseMap: "रोग प्रकोप मानचित्र",
+    analytics: "विश्लेषण डैशबोर्ड",
+    yieldEstimate: "अनुमानित उपज",
+    carbonSequestration: "CO2 पृथक्करण",
+    outbreakAlert: "प्रकोप चेतावनी",
+
+    // Rain Alert Feature
+    rainAlert: "बारिश की चेतावनी",
+    rainAlertDesc: "वास्तविक समय के मौसम अलर्ट के साथ आगे रहें। हम आपकी फसलों की निगरानी करते हैं और आपको आगामी बारिश या पाले के जोखिमों के बारे में सूचित करते हैं।",
+    phoneNumber: "मोबाइल नंबर",
+    phoneNumberPlaceholder: "+91 99999 00000",
+    enableAlerts: "ऑटो-अलर्ट सक्षम करें",
+    detectLocation: "स्थान की पुष्टि करें",
+    saveAlertSettings: "अलर्ट सक्रिय करें",
+    alertSettingsSuccess: "सफल! आपको अपने फोन पर अलर्ट प्राप्त होंगे।",
+    locationDetected: "स्थान सिंक्रनाइज़ किया गया",
+    invalidPhone: "कृपया एक वैध 10-अंकीय भारतीय नंबर (+91) दर्ज करें।",
+    testAlert: "टेस्ट अलर्ट भेजें",
+    rainAlertTitle: "किसान-प्रथम वर्षा अलर्ट",
+    welcomeSms: "PlantAI: आपके खेत के लिए मौसम की निगरानी अब सक्रिय है। हम आपको बारिश या पाले के जोखिमों के बारे में सूचित करेंगे। सुरक्षित रहें!",
   },
 };

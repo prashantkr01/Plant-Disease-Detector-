@@ -15,7 +15,12 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import LiveIcon from '../components/LiveIcon';
 import WeatherWidget from '../components/WeatherWidget';
+import AnalyticsModule from '../components/AnalyticsModule';
+import YieldProjectionModule from '../components/YieldProjectionModule';
+import CarbonCalculatorModule from '../components/CarbonCalculatorModule';
+import { useFeatureFlags } from '../context/FeatureFlagContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useLocalHistory } from '../hooks/useLocalHistory';
 
 const TiltCard = ({ children, className = "" }) => {
   const x = useMotionValue(0);
@@ -61,6 +66,8 @@ const TiltCard = ({ children, className = "" }) => {
 export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { isEnabled } = useFeatureFlags();
+  const { history } = useLocalHistory(user?.uid);
   const [stats, setStats] = useState({
     total: 0,
     healthy: 0,
@@ -140,10 +147,24 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
-            <WeatherWidget />
+            {isEnabled('weatherPrediction') && <WeatherWidget />}
           </div>
           
-          <TiltCard className="lg:col-span-1 h-full">
+          <div className="lg:col-span-1">
+            {isEnabled('userAnalytics') && <AnalyticsModule history={history} />}
+          </div>
+
+          <div className="lg:col-span-1">
+            {isEnabled('yieldProjection') && <YieldProjectionModule history={history} />}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+           <div className="lg:col-span-1">
+              {isEnabled('carbonCalculator') && <CarbonCalculatorModule history={history} />}
+           </div>
+           
+           <TiltCard className="lg:col-span-1 h-full">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -170,30 +191,6 @@ export default function DashboardPage() {
               </div>
             </motion.div>
           </TiltCard>
-
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1 bg-gradient-to-br from-slate-900 via-slate-800 to-black p-10 rounded-[2.5rem] shadow-2xl text-white relative overflow-hidden border border-white/10 group card-hover shadow-black/40"
-          >
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/15 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/25 transition-all duration-1000"></div>
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div>
-                <div className="w-fit px-3 py-1 bg-white/10 text-emerald-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6 border border-white/10 backdrop-blur-md">
-                  {t('optimizationGuide')}
-                </div>
-                <h2 className="text-3xl font-black mb-4 text-white">{t('precisionScanning')}</h2>
-                <p className="text-slate-400 mb-8 text-lg leading-relaxed font-medium">
-                  {t('scanningGuide')}
-                </p>
-              </div>
-              <div className="flex items-center gap-4 text-emerald-400 font-black bg-white/5 w-fit px-6 py-3 rounded-2xl backdrop-blur-xl border border-white/5 shadow-2xl">
-                <LiveIcon icon={ShieldCheck} type="pulse" size={24} />
-                {t('neuralPrecision')}
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </DashboardLayout>
