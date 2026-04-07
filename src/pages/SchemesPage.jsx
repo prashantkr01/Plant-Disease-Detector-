@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -16,6 +16,12 @@ import {
 } from 'lucide-react';
 import LiveIcon from '../components/LiveIcon';
 import { useLanguage } from '../context/LanguageContext';
+
+// Import scheme images
+import pmKisanImg from '../assets/schemes/pm-kisan.png';
+import fasalBimaImg from '../assets/schemes/fasal-bima.png';
+import krishiSinchaiImg from '../assets/schemes/krishi-sinchai.png';
+import mechanizationImg from '../assets/schemes/mechanization.png';
 
 const schemeDetails = {
   "PM-Kisan Samman Nidhi": {
@@ -351,6 +357,8 @@ const schemes = [
     descKey: "pmKisanDesc",
     categoryKey: "financialAid",
     icon: Banknote,
+    image: pmKisanImg,
+    imagePosition: "object-top",
     color: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-50 dark:bg-emerald-500/10",
     link: "https://pmkisan.gov.in/"
@@ -361,6 +369,8 @@ const schemes = [
     descKey: "fasalBimaDesc",
     categoryKey: "insurance",
     icon: ShieldCheck,
+    image: fasalBimaImg,
+    imagePosition: "object-center",
     color: "text-blue-600 dark:text-blue-400",
     bg: "bg-blue-50 dark:bg-blue-500/10",
     link: "https://pmfby.gov.in/"
@@ -371,6 +381,8 @@ const schemes = [
     descKey: "krishiSinchaiDesc",
     categoryKey: "irrigation",
     icon: Droplets,
+    image: krishiSinchaiImg,
+    imagePosition: "object-top",
     color: "text-cyan-600 dark:text-cyan-400",
     bg: "bg-cyan-50 dark:bg-cyan-500/10",
     link: "https://pmksy.gov.in/"
@@ -381,6 +393,8 @@ const schemes = [
     descKey: "mechanizationDesc",
     categoryKey: "subsidy",
     icon: BadgePercent,
+    image: mechanizationImg,
+    imagePosition: "object-top",
     color: "text-amber-600 dark:text-amber-400",
     bg: "bg-amber-50 dark:bg-amber-500/10",
     link: "https://agrimachinery.nic.in/"
@@ -388,11 +402,25 @@ const schemes = [
 ];
 
 export default function SchemesPage() {
-  const { language, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const [modalOpen, setModalOpen] = useState(false);
   const [activeDetails, setActiveDetails] = useState(null);
   const [activeTitle, setActiveTitle] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which scheme's dropdown is open
+
+  // Disable background scrolling when modal is open
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [modalOpen]);
 
   const openDetails = (title) => {
     setActiveTitle(title);
@@ -430,34 +458,49 @@ export default function SchemesPage() {
         </section>
 
         {/* Schemes Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
           {schemes.map((scheme, index) => (
             <motion.div
               key={scheme.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card group overflow-hidden border-slate-100 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 relative"
+              className="glass-card group overflow-hidden border-slate-100 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-500 relative flex flex-col h-full"
             >
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className={`w-14 h-14 ${scheme.bg} rounded-2xl flex items-center justify-center ${scheme.color} shadow-lg ring-1 ring-white/50 dark:ring-white/5`}>
-                    <LiveIcon icon={scheme.icon} type="pulse" size={28} />
+              {/* Scheme Image Header "Frame" */}
+              <div className="relative p-3 pb-0 group-hover:p-2.5 transition-all duration-500">
+                <div className="relative h-64 overflow-hidden rounded-3xl border border-slate-100 dark:border-white/5 shadow-inner">
+                  <img 
+                    src={scheme.image} 
+                    alt={t(scheme.titleKey)} 
+                    className={`w-full h-full object-cover ${scheme.imagePosition || 'object-top'} transform group-hover:scale-110 transition-transform duration-700 ease-out`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/10 to-transparent" />
+                  
+                  {/* Category Badge on Image */}
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase backdrop-blur-md border border-white/20 shadow-xl ${scheme.bg} ${scheme.color}`}>
+                      {t(scheme.categoryKey)}
+                    </span>
                   </div>
-                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase ${scheme.bg} ${scheme.color}`}>
-                    {t(scheme.categoryKey)}
-                  </span>
                 </div>
 
-                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-emerald-600 transition-colors">
+                {/* Floating Icon - Now outside overflow-hidden for proper visibility */}
+                <div className={`absolute -bottom-8 left-10 w-16 h-16 ${scheme.bg} rounded-2xl flex items-center justify-center ${scheme.color} shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] ring-4 ring-white dark:ring-slate-900 z-20 transition-all duration-500 group-hover:-translate-y-3 group-hover:scale-110 group-hover:shadow-emerald-500/20`}>
+                  <LiveIcon icon={scheme.icon} type="pulse" size={32} />
+                </div>
+              </div>
+
+              <div className="p-8 pt-12 flex flex-col flex-1">
+                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                   {t(scheme.titleKey)}
                 </h3>
                 
-                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8">
+                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-8 flex-1">
                   {t(scheme.descKey)}
                 </p>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-50 dark:border-slate-800">
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-6 mt-auto border-t border-slate-50 dark:border-slate-800">
                   <div className="flex items-center gap-4">
                     <a 
                        href={scheme.link}
@@ -472,22 +515,25 @@ export default function SchemesPage() {
                     <div className="relative">
                       <button 
                         onClick={() => openDetails(scheme.id)}
-                        className="flex items-center gap-2 bg-slate-900 dark:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 dark:hover:bg-slate-600 transition-all shadow-md active:scale-95"
+                        className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-emerald-600 dark:hover:bg-emerald-400 hover:text-white transition-all shadow-lg active:scale-95"
                       >
                         {t('fullDetails')} <ArrowRight size={14} />
                       </button>
                     </div>
                   </div>
                   
-                  <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                    <Info size={18} />
+                  <button 
+                    onClick={() => openDetails(scheme.id)}
+                    className="p-2 text-slate-400 hover:text-emerald-500 transition-colors"
+                  >
+                    <Info size={20} />
                   </button>
                 </div>
               </div>
               
               {/* Subtle background decoration */}
-              <div className="absolute -bottom-6 -right-6 opacity-[0.03] dark:opacity-[0.05] group-hover:opacity-10 transition-opacity">
-                <scheme.icon size={120} />
+              <div className="absolute -bottom-10 -right-10 opacity-[0.02] dark:opacity-[0.05] group-hover:opacity-10 transition-all duration-500 transform group-hover:-rotate-12 group-hover:scale-150">
+                <scheme.icon size={160} />
               </div>
             </motion.div>
           ))}
@@ -508,25 +554,33 @@ export default function SchemesPage() {
               
               {/* Modal Content */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="fixed inset-4 md:inset-10 lg:inset-20 glass-card z-[1002] overflow-hidden flex flex-col shadow-2xl border-white/20"
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="fixed inset-2 md:inset-6 lg:inset-10 glass-card z-[1002] overflow-hidden flex flex-col shadow-2xl border-white/20"
               >
-                {/* Modal Header */}
-                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl shrink-0">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                      <Info size={24} />
+                {/* Modal Header - Clean and Text-focused */}
+                <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 shrink-0 relative overflow-hidden">
+                  {/* Subtle Background Accent */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                  
+                  <div className="flex items-center gap-5 relative z-10">
+                    <div className="w-14 h-14 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-sm border border-emerald-500/10">
+                      <Info size={28} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">{t(schemes.find(s => s.id === activeTitle)?.titleKey || activeTitle)}</h2>
-                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mt-1">{t('informationPortal')}</p>
+                      <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        {t(schemes.find(s => s.id === activeTitle)?.titleKey || activeTitle)}
+                      </h2>
+                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em] mt-1">
+                        {t('informationPortal')}
+                      </p>
                     </div>
                   </div>
+
                   <button 
                     onClick={() => setModalOpen(false)}
-                    className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-2xl hover:bg-rose-500 hover:text-white transition-all shadow-sm active:scale-95"
+                    className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 rounded-2xl hover:bg-rose-500 hover:text-white transition-all shadow-sm active:scale-95 relative z-10"
                   >
                     <X size={24} />
                   </button>
