@@ -235,6 +235,7 @@ export const translations = {
     invalidPhone: "Please enter a valid 10-digit Indian number (+91).",
     testAlert: "Send Test Alert",
     rainAlertTitle: "Farmer-First Rain Alert",
+    weatherAlert: "Weather Alert",
     welcomeSms: "PlantAI: Weather monitoring is now ACTIVE for your farm. We will alert you of any rain or frost risks. Stay safe!",
   },
   hi: {
@@ -473,6 +474,7 @@ export const translations = {
     invalidPhone: "कृपया एक वैध 10-अंकीय भारतीय नंबर (+91) दर्ज करें।",
     testAlert: "टेस्ट अलर्ट भेजें",
     rainAlertTitle: "किसान-प्रथम वर्षा अलर्ट",
+    weatherAlert: "मौसम की चेतावनी",
     welcomeSms: "PlantAI: आपके खेत के लिए मौसम की निगरानी अब सक्रिय है। हम आपको बारिश या पाले के जोखिमों के बारे में सूचित करेंगे। सुरक्षित रहें!",
   },
 };

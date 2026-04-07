@@ -97,3 +97,42 @@ export const triggerTestAlert = async (phoneNumber, message) => {
   
   return { success: true, provider: "Simulated SMS Gateway" };
 };
+
+/**
+ * Higher-level function to check weather AND trigger notifications
+ */
+export const processAlerts = async (uid, settings, t) => {
+  if (!settings || !settings.alertsEnabled || !settings.lat) return { checked: false };
+
+  // Throttling: only notify once every 4 hours for the same condition
+  const lastAlertKey = `last_alert_${uid}`;
+  const lastAlert = localStorage.getItem(lastAlertKey);
+  const now = Date.now();
+  
+  if (lastAlert && (now - parseInt(lastAlert)) < 4 * 60 * 60 * 1000) {
+    console.log("[RAIN ALERT] Throttled: Alert already sent recently.");
+    return { checked: true, throttled: true };
+  }
+
+  const status = await checkRainStatus(settings.lat, settings.lng);
+  
+  if (status.hasAlert) {
+    console.log("[RAIN ALERT] Threat detected! Triggering notifications...");
+    
+    // 1. Send Simulated SMS
+    await triggerTestAlert(settings.phoneNumber, `${t('weatherAlert')}: ${status.message}`);
+    
+    // 2. Browser Notification (if supported and permitted)
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("Farmer-First Rain Alert", {
+        body: status.message,
+        icon: "/favicon.ico"
+      });
+    }
+
+    localStorage.setItem(lastAlertKey, now.toString());
+    return { checked: true, alerted: true, status };
+  }
+
+  return { checked: true, alerted: false, status };
+};

@@ -3,7 +3,7 @@ import { CloudRain, X, Phone, MapPin, Bell, CheckCircle, RefreshCw, Info, AlertC
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { saveRainAlertSettings, getRainAlertSettings, triggerTestAlert } from '../services/RainAlertService';
+import { saveRainAlertSettings, getRainAlertSettings, triggerTestAlert, processAlerts } from '../services/RainAlertService';
 
 export default function RainAlertManager() {
   const { user } = useAuth();
@@ -75,13 +75,19 @@ export default function RainAlertManager() {
         normalizedPhone = '+91' + normalizedPhone;
       }
 
-      await saveRainAlertSettings(user.uid, {
+      const savedData = {
         ...settings,
         phoneNumber: normalizedPhone
-      });
+      };
+
+      await saveRainAlertSettings(user.uid, savedData);
       
       if (settings.alertsEnabled) {
+        // First, send the welcome/confirm SMS
         await triggerTestAlert(normalizedPhone, t('welcomeSms'));
+        
+        // Then, perform an immediate weather check for instant feedback
+        await processAlerts(user.uid, savedData, t);
       }
 
       setSaved(true);
